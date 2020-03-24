@@ -42,7 +42,14 @@ def fs(model, X, y, n=0, tuning=None):
             return SelectKBest(model, n).fit_transform(X, y)
 
 def drp(model, X, y, tuning=None):
-    return model.fit(X, y)
+    
+    if tuning != None:
+        r = RandomizedSearchCV(model, tuning.space, n_iter = tuning.iterations, n_jobs=tuning.jobs, cv= tuning.cv, scoring = tuning.scoring)
+        r.fit(X, y)
+        drp = r.best_estimator_
+    else:
+        drp = model.fit(X, y)
+    return drp
     
     
 
