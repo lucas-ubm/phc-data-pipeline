@@ -16,8 +16,10 @@ class tuning:
         self.cv = cv
         self.jobs = jobs 
 
+def pre(data, ):
+    
 
-def fs(model, X, y, n=0, tuning=None):
+def fs(model, X: np.ndarray, y:np.ndarray, n=0, tuning=None) -> np.ndarray:
     # This is used for tree-based feature selection
     if n==0:
 
