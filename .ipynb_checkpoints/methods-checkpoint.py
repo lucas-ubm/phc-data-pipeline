@@ -16,11 +16,16 @@ def run(drug, pre, norm, fs, da, model, test = None):
     
     if pre != None:
         X = pre(X, pre)
+        
     if norm != None:
         X, y = norm(X, y, norm)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test)
-    #if fs != None:
         
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test)
+    
+    if fs != None:
+        X_train, X_test, var = fs(fs.model, X_train, X_test, fs.tuning)
+    
+    if da != None:
         
 
 class drug:
@@ -118,8 +123,9 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
     
     return X_train, X_test, var
 
-#def select()
-        
+def da(model, X):
+    
+    
 def drp(model, X, y, tuning=None):
     
     if tuning != None:
