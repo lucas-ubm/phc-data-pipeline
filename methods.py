@@ -6,7 +6,27 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.model_selection import train_test_split
 from sklearn.model_selection import RandomizedSearchCV
+
+
+def run(drug, pre, norm, fs, da, model, test = None):
+    X = drug.get_x()
+    y = drug.get_y()
+    
+    if pre != None:
+        X = pre(X, pre)
+        
+    if norm != None:
+        X, y = norm(X, y, norm)
+        
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test)
+    
+    if fs != None:
+        X_train, X_test, var = fs(fs.model, X_train, X_test, fs.tuning)
+    
+    if da != None:
+        
 
 class drug:
     def __init__(self, name, X, y):
@@ -14,11 +34,24 @@ class drug:
         self.X = X
         self.y = y
         
-    def select(self, model, X = 0, y = 0, n=0, tuning=None):
-        return self
+    def select(self, model, X = None, y = None, n=0, tuning=None):
+        
+        if X is None:
+            X = self.X
+        if y is None:
+            y = self.y
+            
+        self.model = drp(model, X, y, n, None)
     
-    def train(self, model):
-        return self
+    def train(self, model, X = None, y = None, tuning=None):
+        
+        if X is None:
+            X = self.X
+        if y is None:
+            y = self.y
+            
+        self.model = drp(model, X, y, None)
+        
         
     
 class tuning:
@@ -29,7 +62,17 @@ class tuning:
         self.cv = cv
         self.jobs = jobs 
         
-    
+
+def combine(ge, dr, drug):
+        drug_dr = dr[dr['Drug_name'] == drug][['CCL', 'AUC_IC50']]
+        
+        X = np.array([list(ge.loc[i].values) for i in drug_dr[drug_dr['CCL'].isin(ge.index)]['CCL']])
+        X = X.reshape(drug_dr.shape[0], ge.shape[1])
+        y = drug_dr['AUC_IC50'].to_numpy()
+        
+        return X, y   
+        
+        
 def pre(data: pd.DataFrame,p = 0.1, t = 4) -> pd.DataFrame:
         
         under = data.applymap(lambda x: np.nan if (x<=t) else x)
@@ -42,42 +85,47 @@ def pre(data: pd.DataFrame,p = 0.1, t = 4) -> pd.DataFrame:
         index = [k for k,v in under.items() if v]        
         return data[index]
     
-def combine(ge, dr, drug):
-        drug_dr = dr[dr['Drug_name'] == drug][['CCL', 'AUC_IC50']]
-        
-        X = np.array([list(ge.loc[i].values) for i in drug_dr[drug_dr['CCL'].isin(ge.index)]['CCL']])
-        X = X.reshape(drug_dr.shape[0], ge.shape[1])
-        y = drug_dr['AUC_IC50'].to_numpy()
-        
-        return X, y
 
-def fs(model, X: np.ndarray, y:np.ndarray, n=0, tuning=None):
+
+
+def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning=None):
     # This is used for tree-based feature selection
     if n==0:
 
-        model.fit(X, y)
+        model.fit(X_train, y)
+        
         if tuning != None:
             r = RandomizedSearchCV(model, tuning.space, n_iter = tuning.iterations, n_jobs=tuning.jobs, cv= tuning.cv, scoring = tuning.scoring)
-            r.fit(X, y)
+            r.fit(X_train, y)
             model = r.best_estimator_
+            
         fs = SelectFromModel(estimator = model, prefit=True)
-        return fs.transform(), fs.get_support()
+        X_train = fs.transform()
     
     # This is used for variance threshold selection
     elif n > 1 and type(n) == type(0.2):
         fs = VarianceThreshold(n)
-        return fs.fit_transform(X), fs.get_support()
+        X_train = fs.fit_transform(X_train)
 
     # This is used for selectkbest and selectpercentile
     else:
         if n < 1:
             n = n*100
             fs = SelectPercentile(model, n)
-            return fs.fit_transform(X, y), fs.get_support()
         else:
             fs = SelectKBest(model, n)
-            return fs.fit_transform(X, y), fs.get_support()
+            
+        X_train = fs.fit_transform(X_train, y)
+        
+    var = fs.get_support()
+    index = [i for i, x in enumerate(var) if x]
+    X_test = np.apply_along_axis(lambda x: x[index], 1, X_test)
+    
+    return X_train, X_test, var
 
+def da(model, X):
+    
+    
 def drp(model, X, y, tuning=None):
     
     if tuning != None:
