@@ -25,32 +25,9 @@ def run(drug, pre, norm, fs, da, model, test = None):
     if fs != None:
         X_train, X_test, var = fs(fs.model, X_train, X_test, fs.tuning)
     
-    if da != None:
+    #if da != None:
         
 
-class drug:
-    def __init__(self, name, X, y):
-        self.name = name
-        self.X = X
-        self.y = y
-        
-    def select(self, model, X = None, y = None, n=0, tuning=None):
-        
-        if X is None:
-            X = self.X
-        if y is None:
-            y = self.y
-            
-        self.model = drp(model, X, y, n, None)
-    
-    def train(self, model, X = None, y = None, tuning=None):
-        
-        if X is None:
-            X = self.X
-        if y is None:
-            y = self.y
-            
-        self.model = drp(model, X, y, None)
         
         
     
@@ -60,21 +37,22 @@ class tuning:
         self.iterations = iterations
         self.scoring = scoring
         self.cv = cv
-        self.jobs = jobs 
+        self.jobs = jobs
         
 
-def combine(ge, dr, drug):
+def combine(ge, dr, drug, metric='AUC_IC50'):
         drug_dr = dr[dr['Drug_name'] == drug][['CCL', 'AUC_IC50']]
         
         X = np.array([list(ge.loc[i].values) for i in drug_dr[drug_dr['CCL'].isin(ge.index)]['CCL']])
         X = X.reshape(drug_dr.shape[0], ge.shape[1])
-        y = drug_dr['AUC_IC50'].to_numpy()
+        y = drug_dr[metric].to_numpy()
         
-        return X, y   
+        data = pd.DataFrame(X)
+        data['DR'] = y
+        return data
         
         
-def pre(data: pd.DataFrame,p = 0.1, t = 4) -> pd.DataFrame:
-        
+def pre(data: pd.DataFrame, p = 0.1, t = 4) -> pd.DataFrame:
         under = data.applymap(lambda x: np.nan if (x<=t) else x)
         
         if p < 1:
@@ -84,14 +62,16 @@ def pre(data: pd.DataFrame,p = 0.1, t = 4) -> pd.DataFrame:
         
         index = [k for k,v in under.items() if v]        
         return data[index]
-    
 
 
 
 def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning=None):
+    """ Returns a subset of {X_train} and {X_test} with features being selected by the method {model}
+    :param int n: it can be the variance thereshold or the number of chosen features 
+    :
+    """
     # This is used for tree-based feature selection
     if n==0:
-
         model.fit(X_train, y)
         
         if tuning != None:
@@ -123,7 +103,33 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
     
     return X_train, X_test, var
 
-def da(model, X):
+def jump(domain, n, data):
+    result = []
+    for i, ele in enumerate(data):
+        result.append(ele)
+        for j in range(0, domain):
+            result.append(0)
+        result.append(ele)
+        for j in range(0, n-domain-1):
+            result.append(0)
+    return result
+    
+def feda(domains):
+    n = len(domains)
+    
+    samples = 0
+    for i in domains:
+        samples += i.shape[0]
+    
+    features = domains[0].shape[1]*(n+1)
+    
+    new = np.zeros(features)
+    for i, data in enumerate(domains):
+        for j in data:
+            new = np.vstack([new, jump(i, n, j)])
+            
+    return new[1:]
+
     
     
 def drp(model, X, y, tuning=None):
