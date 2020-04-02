@@ -2,3 +2,4 @@
 data/
 ignore/
 log/
+__pycache__/
