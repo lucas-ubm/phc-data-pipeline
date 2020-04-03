@@ -41,29 +41,19 @@ class tuning:
         
 
 def combine(ge, dr, drug, metric='AUC_IC50'):
-        drug_dr = dr[dr['Drug_name'] == drug][['CCL', 'AUC_IC50']]
-        
-        X = np.array([list(ge.loc[i].values) for i in drug_dr[drug_dr['CCL'].isin(ge.index)]['CCL']])
-        X = X.reshape(drug_dr.shape[0], ge.shape[1])
-        y = drug_dr[metric].to_numpy()
-        
-        data = pd.DataFrame(X)
-        data['DR'] = y
-        return data
+        return ge.join(dr[dr['Drug_name'] == drug][['CCL', metric]].set_index('CCL'), how='right')
         
         
 def pre(data: pd.DataFrame, p = 0.1, t = 4) -> pd.DataFrame:
     
-        under = (gdsc_ge.to_numpy()>t).T.astype(np.int8)
+        under = (data.to_numpy()>t).T.astype(np.int8)
 
-        
-        
         if p < 1:
-            n = [np.count_nonzero(i) > p * gdsc_ge.shape[0] for i in under]
+            n = [np.count_nonzero(i) > p * data.shape[0] for i in under]
         else:
             n = [np.count_nonzero(i) > p for i in under]
             
-        names = {gdsc_ge.keys()[k]:v for k, v in enumerate(n)}
+        names = {data.keys()[k]:v for k, v in enumerate(n)}
         index = [k for k,v in names.items() if v]
         
         return data[index]

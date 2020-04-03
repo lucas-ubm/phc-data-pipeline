@@ -7,6 +7,7 @@ from methods import fs
 from methods import feda
 from methods import drp
 from inspect import getmembers
+import time
 
 class drug:
     
@@ -21,6 +22,7 @@ class drug:
         
     def combine(self, metric='AUC_IC50'):
         data = {}
+        self.metric = metric
         if not self.data.empty:
             ge = self.data
         else:
@@ -30,7 +32,7 @@ class drug:
         self.data = pd.concat(data, sort = False).fillna(0)
     
     def split(self):
-        X_train, X_test, y_train, y_test = train_test_split(self.data.drop('DR', axis=1), self.data['DR'], stratify = self.data.index.get_level_values(0))
+        X_train, X_test, y_train, y_test = train_test_split(self.data.drop(self.metric, axis=1), self.data[self.metric], stratify = self.data.index.get_level_values(0))
         
         self.X = {'train': X_train, 'test': X_test}
         self.y = {'train': y_train, 'test': y_test}
