@@ -53,14 +53,19 @@ def combine(ge, dr, drug, metric='AUC_IC50'):
         
         
 def pre(data: pd.DataFrame, p = 0.1, t = 4) -> pd.DataFrame:
-        under = data.applymap(lambda x: np.nan if (x<=t) else x)
+    
+        under = (gdsc_ge.to_numpy()>t).T.astype(np.int8)
+
+        
         
         if p < 1:
-            under = under.count() > p * data.shape[0]
+            n = [np.count_nonzero(i) > p * gdsc_ge.shape[0] for i in under]
         else:
-            under = under.count() > p
+            n = [np.count_nonzero(i) > p for i in under]
+            
+        names = {gdsc_ge.keys()[k]:v for k, v in enumerate(n)}
+        index = [k for k,v in names.items() if v]
         
-        index = [k for k,v in under.items() if v]        
         return data[index]
 
 
