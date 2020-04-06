@@ -68,7 +68,7 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
         X_train = fs.transform()
     
     # This is used for variance threshold selection
-    elif model == VarianceThreshold():
+    elif model == VarianceThreshold:
         fs = VarianceThreshold(n)
         X_train = fs.fit_transform(X_train)
 

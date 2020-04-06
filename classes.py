@@ -28,6 +28,7 @@ class drug:
         
     def pre(self, p = 0.01, t=4):
         self.data = pre(self.ge, p, t)
+        del self.ge
         
     def combine(self, metric='AUC_IC50'):
         data = {}
@@ -36,21 +37,35 @@ class drug:
             ge = self.data
         else:
             ge = self.ge
-        for ele in self.ge.index.levels[0]:
+        
+        for ele in ge.index.levels[0]:
             data[ele] = combine(ge.loc[ele], self.dr.loc[ele], self.name, metric=metric)
+        
+        del self.dr
+        if 'ge' in self.__dict__:
+            del self.ge
+    
         self.data = pd.concat(data, sort = False).fillna(0)
     
     def split(self, test=None):
         X_train, X_test, y_train, y_test = train_test_split(self.data.drop(self.metric, axis=1), self.data[self.metric], stratify = self.data.index.get_level_values(0), test_size = test)
         
-        self.X = {'train': X_train, 'test': X_test}
-        self.y = {'train': y_train, 'test': y_test}
+        self.X = {'train': X_train.index, 'test': X_test.index}
+        self.y = {'train': y_train.index, 'test': y_test.index}
     
+    def get(self, data, split):
+        if data == 'X':
+            return self.data.loc[self.X[split]].drop(self.metric, axis = 1)
+        elif data =='y':
+            return self.data.loc[self.y[split]][self.metric]
+        
         
     def fs(self, model, n=0, tuning=None):
-        X_train, X_test, var = fs(model, self.X['train'], self.X['test'], self.y['train'], n=n, tuning=tuning) 
-        self.X['fs_train'] = pd.DataFrame(X_train, index = self.X['train'].index)
-        self.X['fs_test'] = pd.DataFrame(X_test, index = self.X['test'].index)
+        X_train, X_test, var = fs(model, self.get('X', 'train'), self.get('X', 'test'), self.get('y', 'train'), n=n, tuning=tuning) 
+        train_index = self.data.loc[self.X['train']].keys()
+        test_index = self.data.loc[self.X['test']].keys()
+        self.X['fs_train'] = pd.DataFrame(X_train, index = train_index)
+        self.X['fs_test'] = pd.DataFrame(X_test, index = test_index)
     
     def feda(self):
         train_domains = []
