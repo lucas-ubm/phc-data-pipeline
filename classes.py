@@ -9,6 +9,15 @@ from methods import drp
 from inspect import getmembers
 import time
 
+    
+class tuning:
+    def __init__(self, space, iterations=100, scoring = 'r2', cv=3, jobs = -2):
+        self.space = space
+        self.iterations = iterations
+        self.scoring = scoring
+        self.cv = cv
+        self.jobs = jobs
+        
 class drug:
     
     def __init__(self, name, ge, dr):
@@ -31,15 +40,15 @@ class drug:
             data[ele] = combine(ge.loc[ele], self.dr.loc[ele], self.name, metric=metric)
         self.data = pd.concat(data, sort = False).fillna(0)
     
-    def split(self):
-        X_train, X_test, y_train, y_test = train_test_split(self.data.drop(self.metric, axis=1), self.data[self.metric], stratify = self.data.index.get_level_values(0))
+    def split(self, test=None):
+        X_train, X_test, y_train, y_test = train_test_split(self.data.drop(self.metric, axis=1), self.data[self.metric], stratify = self.data.index.get_level_values(0), test_size = test)
         
         self.X = {'train': X_train, 'test': X_test}
         self.y = {'train': y_train, 'test': y_test}
     
         
     def fs(self, model, n=0, tuning=None):
-        X_train, X_test, var = fs(model, self.X['train'], self.X['test'], self.y['train'], n) 
+        X_train, X_test, var = fs(model, self.X['train'], self.X['test'], self.y['train'], n=n, tuning=tuning) 
         self.X['fs_train'] = pd.DataFrame(X_train, index = self.X['train'].index)
         self.X['fs_test'] = pd.DataFrame(X_test, index = self.X['test'].index)
     
@@ -57,8 +66,10 @@ class drug:
         X_test = self.X[test]
         
         for i in self.data.index.levels[0]:
-            train_domains.append(X_train.loc[i].to_numpy())
-            test_domains.append(X_test.loc[i].to_numpy())
+            if i in self.data.index:
+                train_domains.append(X_train.loc[i].to_numpy())
+                test_domains.append(X_test.loc[i].to_numpy())
+            
             
         self.X[train] = feda(train_domains)
         self.X[test] = feda(test_domains)
@@ -68,7 +79,7 @@ class drug:
         if 'fs_train' in self.X.keys():
             train = 'fs_'+train
         
-        self.model = drp(model, self.X[train], self.y['train'], None)
+        self.model = drp(model, self.X[train], self.y['train'], tuning=tuning)
         
     def predict(self, X = pd.DataFrame(), y = pd.DataFrame(), metrics = None):
         if X.empty and 'fs_test' in self.X.keys():
@@ -85,6 +96,7 @@ class drug:
         scores = {}
         for metric in arr:
             scores[metric.__name__] = metric(self.y['test'], self.y['predicted'])
+        self.scores = scores
         return scores
     
     def to_json(self):

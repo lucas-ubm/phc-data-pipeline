@@ -29,23 +29,13 @@ def run(drug, pre, norm, fs, da, model, test = None):
         
 
         
-        
-    
-class tuning:
-    def __init__(self, space, iterations=100, scoring = 'r2', cv=3, jobs = -2):
-        self.space = space
-        self.iterations = iterations
-        self.scoring = scoring
-        self.cv = cv
-        self.jobs = jobs
-        
 
 def combine(ge, dr, drug, metric='AUC_IC50'):
         return ge.join(dr[dr['Drug_name'] == drug][['CCL', metric]].set_index('CCL'), how='right')
         
         
 def pre(data: pd.DataFrame, p = 0.1, t = 4) -> pd.DataFrame:
-    
+        data = data.fillna(0)
         under = (data.to_numpy()>t).T.astype(np.int8)
 
         if p < 1:
@@ -66,7 +56,7 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
     :
     """
     # This is used for tree-based feature selection
-    if n==0:
+    if model in [DecisionTreeRegressor(), RandomForestRegressor()] and n==0:
         model.fit(X_train, y)
         
         if tuning != None:
@@ -78,7 +68,7 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
         X_train = fs.transform()
     
     # This is used for variance threshold selection
-    elif n > 1 and type(n) == type(0.2):
+    elif model == VarianceThreshold():
         fs = VarianceThreshold(n)
         X_train = fs.fit_transform(X_train)
 
