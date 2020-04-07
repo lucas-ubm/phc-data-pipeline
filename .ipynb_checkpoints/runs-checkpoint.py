@@ -17,6 +17,7 @@ def run(name, ge, dr, fs, feda, model, n=0, fs_tuning=None, tuning=None, p = 0.0
             ele.feda()
         ele.train(model, tuning=tuning)
         ele.metrics([r2_score, mean_absolute_error, mean_squared_error, median_absolute_error])
+        print(ele.scores)
         drugs[i] = ele
         
     return drugs

@@ -60,7 +60,7 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
         model.fit(X_train, y)
         
         if tuning != None:
-            r = RandomizedSearchCV(model, tuning.space, n_iter = tuning.iterations, n_jobs=tuning.jobs, cv= tuning.cv, scoring = tuning.scoring)
+            r = RandomizedSearchCV(model, tuning.space, n_iter = tuning.iterations, n_jobs=tuning.jobs, cv= tuning.cv, scoring = tuning.scoring, iid=False)
             r.fit(X_train, y)
             model = r.best_estimator_
             
@@ -120,7 +120,7 @@ def feda(domains):
 def drp(model, X, y, tuning=None):
     
     if tuning != None:
-        r = RandomizedSearchCV(model, tuning.space, n_iter = tuning.iterations, n_jobs=tuning.jobs, cv= tuning.cv, scoring = tuning.scoring)
+        r = RandomizedSearchCV(model, tuning.space, n_iter = tuning.iterations, n_jobs=tuning.jobs, cv= tuning.cv, scoring = tuning.scoring, iid=False)
         r.fit(X, y)
         drp = r.best_estimator_
     else:

@@ -26,6 +26,12 @@ class drug:
         self.dr = pd.concat(dr, sort = False)
         self.data = pd.DataFrame()
         
+        ##Maybe I could have a dict of steps with key = method name value = True if run False else
+        self.col = []
+        self.da = {}
+        self.predicted = []
+        
+        
     def pre(self, p = 0.01, t=4):
         self.data = pre(self.ge, p, t)
         del self.ge
@@ -54,31 +60,31 @@ class drug:
         self.y = {'train': y_train.index, 'test': y_test.index}
     
     def get(self, data, split):
-        if data == 'X':
-            return self.data.loc[self.X[split]].drop(self.metric, axis = 1)
-        elif data =='y':
+        if data =='y':
             return self.data.loc[self.y[split]][self.metric]
+        elif len(self.da) > 0:
+            return self.da[split]
+        elif len(self.col) > 0:
+            return self.data.loc[self.X[split]][self.col]
+        elif data == 'X':
+            return self.data.loc[self.X[split]].drop(self.metric, axis = 1)
         
         
     def fs(self, model, n=0, tuning=None):
         X_train, X_test, var = fs(model, self.get('X', 'train'), self.get('X', 'test'), self.get('y', 'train'), n=n, tuning=tuning) 
-        train_index = self.data.loc[self.X['train']].keys()
-        test_index = self.data.loc[self.X['test']].keys()
-        self.X['fs_train'] = pd.DataFrame(X_train, index = train_index)
-        self.X['fs_test'] = pd.DataFrame(X_test, index = test_index)
+        col = []
+        for i, ele in enumerate(var):
+            if ele:
+                col.append(self.data.keys()[i])
+        col.append(self.metric)
+        self.col = col
     
     def feda(self):
         train_domains = []
         test_domains = []
-        train = 'train'
-        test = 'test'
         
-        if 'fs_train' in self.X.keys():
-            train = 'fs_'+train
-            test = 'fs_'+test
-        
-        X_train = self.X[train]
-        X_test = self.X[test]
+        X_train = self.get('X', 'train')
+        X_test = self.get('X', 'test')
         
         for i in self.data.index.levels[0]:
             if i in self.data.index:
@@ -86,31 +92,29 @@ class drug:
                 test_domains.append(X_test.loc[i].to_numpy())
             
             
-        self.X[train] = feda(train_domains)
-        self.X[test] = feda(test_domains)
+        self.da['train'] = feda(train_domains)
+        self.da['test'] = feda(test_domains)
         
     def train(self, model, tuning=None):
-        train = 'train'
-        if 'fs_train' in self.X.keys():
-            train = 'fs_'+train
+        X = self.get('X', 'train')
         
-        self.model = drp(model, self.X[train], self.y['train'], tuning=tuning)
+        self.model = drp(model, X, self.get('y', 'train'), tuning=tuning)
         
     def predict(self, X = pd.DataFrame(), y = pd.DataFrame(), metrics = None):
-        if X.empty and 'fs_test' in self.X.keys():
-            X = self.X['fs_test']
-        elif 'fs_test' not in self.X.keys():
-            X = self.X['test']
+        if X.empty:
+            X = self.get('X', 'test')
+        if y.empty:
+            y = self.get('y', 'test')
         ypred = self.model.predict(X)
-        self.y['predicted'] = ypred
+        self.predicted = ypred
         return ypred
     
     def metrics(self, arr: list) -> dict:
-        if 'predicted' not in self.y.keys():
+        if len(self.predicted) == 0:
             self.predict()
         scores = {}
         for metric in arr:
-            scores[metric.__name__] = metric(self.y['test'], self.y['predicted'])
+            scores[metric.__name__] = metric(self.get('y', 'test'), self.predicted)
         self.scores = scores
         return scores
     
@@ -121,9 +125,6 @@ class drug:
             print(k)
             print(type(v))
             
-            
-            
-    
         
 class tuning:
     def __init__(self, space, iterations=100, scoring = 'r2', cv=3, jobs = -2):
