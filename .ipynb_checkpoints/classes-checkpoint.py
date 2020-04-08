@@ -115,7 +115,7 @@ class drug:
         scores = {}
         for metric in arr:
             scores[metric.__name__] = metric(self.get('y', 'test'), self.predicted)
-        self.scores = scores
+        self.scores = pd.DataFrame.from_dict(scores, orient='columns')
         return scores
     
     def to_json(self):
