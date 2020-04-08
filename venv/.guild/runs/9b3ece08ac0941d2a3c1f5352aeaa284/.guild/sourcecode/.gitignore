@@ -1,0 +1,7 @@
+# Data and experiments
+data/
+ignore/
+log/
+__pycache__/
+venv/
+

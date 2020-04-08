@@ -1,0 +1,5 @@
+{'r2_score': -0.004956571287746625, 'mean_absolute_error': 0.2543434069963927, 'mean_squared_error': 0.09228828216722908, 'median_absolute_error': 0.23230207365550848}
+{'r2_score': -0.004956650478304958, 'mean_absolute_error': 0.3424267500741933, 'mean_squared_error': 0.1363610255224965, 'median_absolute_error': 0.3283282501639925}
+{'r2_score': -0.03943905474449827, 'mean_absolute_error': 0.22126540672872175, 'mean_squared_error': 0.06614135480256908, 'median_absolute_error': 0.2237674777987479}
+[{'r2_score': -0.004956571287746625, 'mean_absolute_error': 0.2543434069963927, 'mean_squared_error': 0.09228828216722908, 'median_absolute_error': 0.23230207365550848}, {'r2_score': -0.004956650478304958, 'mean_absolute_error': 0.3424267500741933, 'mean_squared_error': 0.1363610255224965, 'median_absolute_error': 0.3283282501639925}, {'r2_score': -0.03943905474449827, 'mean_absolute_error': 0.22126540672872175, 'mean_squared_error': 0.06614135480256908, 'median_absolute_error': 0.2237674777987479}]
+score: 7

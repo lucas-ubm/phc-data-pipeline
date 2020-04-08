@@ -1,0 +1,6 @@
+architecture: '64bit '
+cpus: 4
+processor: i386
+python_version: 3.7.3 (default, Mar  6 2020, 22:34:30) [Clang 11.0.3 (clang-1103.0.32.29)]
+uname: 'Darwin Mavrokefalidiss-MacBook-Pro.local 19.4.0 Darwin Kernel Version 19.4.0:
+  Wed Mar  4 22:28:40 PST 2020; root:xnu-6153.101.6~15/RELEASE_X86_64 x86_64 i386'

@@ -1,0 +1,26 @@
+- model: train
+  description: First test for this guild thing
+  operations:
+    train:
+      main: train
+      flags-dest: globals
+      sourcecode:
+          root: ../
+          exclude:
+            dir:
+              data
+          
+      flags-import:
+        - feda
+        - fs
+        - model
+        - threshold
+        - data
+        - drugs
+
+        
+
+
+
+
+

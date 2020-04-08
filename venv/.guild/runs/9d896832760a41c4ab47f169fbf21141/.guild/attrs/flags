@@ -1,0 +1,5 @@
+data: data
+feda: true
+fs: f_regression
+model: SVR
+threshold: 0.01

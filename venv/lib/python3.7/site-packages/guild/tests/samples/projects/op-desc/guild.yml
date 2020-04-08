@@ -1,0 +1,19 @@
+- model: ''
+  operations:
+    train:
+      description: Sample op
+      main: guild.pass
+
+- model: a
+  description: Sample model
+  operations:
+    train:
+      description: Sample op
+      main: guild.pass
+
+- model: b
+  description: Sample model
+  operations:
+    train:
+      description: Sample op
+      main: guild.pass

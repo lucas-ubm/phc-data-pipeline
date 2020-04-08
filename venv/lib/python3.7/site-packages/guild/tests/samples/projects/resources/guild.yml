@@ -1,0 +1,73 @@
+- model: resources
+  resources:
+    test:
+      sources:
+        - file: archive1.zip
+          sha256: 8d172fde27ec89ae0a76832f8ff714e3e498b23d14bac7edfb55e3c4729e3265
+          select: a.txt
+        - file: archive2.tar
+        - file: archive3.tar
+          unpack: no
+        - file: test.txt
+          sha256: f33ae3bc9a22cd7564990a794789954409977013966fb1a8f43c35776b833a95
+        - file: badhash.txt
+          sha256: xxx
+        - file: files
+        - file: files
+          select: .+\.txt
+        - file: doesnt-exist
+        - file: test.txt
+          rename:
+            pattern: (.+)\.txt
+            repl: \1.config
+    test2:
+      path: foo
+      sources:
+        - file: test.txt
+        - file: files/a.bin
+          path: bar
+
+    test3:
+      sources:
+        - file: files
+          # Fully specified rename (map)
+          rename:
+            pattern: files
+            repl: all_files
+        - file: files
+          select: .+\.bin
+          path: bin
+          # Inline rename ('PATTERN REPL' string)
+          rename: \.bin ''
+        - file: archive1.zip
+          select: .+\.txt
+          path: archive1
+          rename:
+            pattern: (.+)\.txt
+            repl: \g<1>2.txt
+        - file: archive2.tar
+          rename:
+            pattern: (.+)
+            repl: archive2_\1
+
+    test4:
+      sources:
+        - config: config.yml
+        - config: config.yml
+          rename: config c2
+        - config: config.yml
+          path: c3
+          params:
+            a: 111
+            c.d: 333
+
+  operations:
+    test4:
+      main: guild.pass
+      requires: test4
+      flags:
+        a: 11
+        b: 22
+        d:
+          default: 33
+          arg-name: c.d

@@ -1,0 +1,10 @@
+- config: test-support
+  operations:
+    test:
+      exec: test
+
+- model: model
+  extends: test-support
+  operations:
+    train:
+      exec: train

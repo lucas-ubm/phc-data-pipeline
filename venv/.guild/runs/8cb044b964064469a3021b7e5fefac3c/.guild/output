@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/Users/admin/Desktop/Thesis/Code/phc-data-pipeline/venv/.guild/runs/8cb044b964064469a3021b7e5fefac3c/.guild/sourcecode/train.py", line 14, in <module>
+    gdsc_ge = pd.read_csv('data/Processed/gdsc_cell_ge.csv').fillna(0).set_index('CCL')
+  File "/Users/admin/Desktop/Thesis/Code/phc-data-pipeline/venv/lib/python3.7/site-packages/pandas/io/parsers.py", line 676, in parser_f
+    return _read(filepath_or_buffer, kwds)
+  File "/Users/admin/Desktop/Thesis/Code/phc-data-pipeline/venv/lib/python3.7/site-packages/pandas/io/parsers.py", line 448, in _read
+    parser = TextFileReader(fp_or_buf, **kwds)
+  File "/Users/admin/Desktop/Thesis/Code/phc-data-pipeline/venv/lib/python3.7/site-packages/pandas/io/parsers.py", line 880, in __init__
+    self._make_engine(self.engine)
+  File "/Users/admin/Desktop/Thesis/Code/phc-data-pipeline/venv/lib/python3.7/site-packages/pandas/io/parsers.py", line 1114, in _make_engine
+    self._engine = CParserWrapper(self.f, **self.options)
+  File "/Users/admin/Desktop/Thesis/Code/phc-data-pipeline/venv/lib/python3.7/site-packages/pandas/io/parsers.py", line 1891, in __init__
+    self._reader = parsers.TextReader(src, **kwds)
+  File "pandas/_libs/parsers.pyx", line 374, in pandas._libs.parsers.TextReader.__cinit__
+  File "pandas/_libs/parsers.pyx", line 674, in pandas._libs.parsers.TextReader._setup_parser_source
+FileNotFoundError: [Errno 2] File data/Processed/gdsc_cell_ge.csv does not exist: 'data/Processed/gdsc_cell_ge.csv'

@@ -1,0 +1,20 @@
+- model: train
+  description: First test for this guild thing
+  operations:
+    train:
+      main: train
+      flags-dest: globals
+      flags-import:
+        - feda
+        - fs
+        - model
+        - threshold
+        - data
+        - drugs
+
+        
+
+
+
+
+
