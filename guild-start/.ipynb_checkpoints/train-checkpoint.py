@@ -1,5 +1,5 @@
-from runs import run
-from classes import drug
+from .. import runs.run
+from .. import classes.drug
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
@@ -48,3 +48,4 @@ for i in r1.values():
     metrics.append(i.scores)
 metrics = str(metrics)
 print(metrics)
+r1
