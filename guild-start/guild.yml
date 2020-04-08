@@ -5,11 +5,9 @@
       main: train
       flags-dest: globals
       sourcecode:
-          root: ../
-          exclude:
-            dir:
-              data
-          
+        root: ../
+        select:
+          - '*.py'          
       flags-import:
         - feda
         - fs
