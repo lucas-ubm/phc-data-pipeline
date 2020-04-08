@@ -4,4 +4,4 @@ ignore/
 log/
 __pycache__/
 venv/
-
+config.py

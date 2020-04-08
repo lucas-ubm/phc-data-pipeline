@@ -9,12 +9,11 @@ from classes import tuning
 import pandas as pd
 from sklearn.feature_selection import SelectKBest, SelectPercentile, f_regression, mutual_info_regression, SelectFromModel, VarianceThreshold
 
-
-
-gdsc_ge = pd.read_csv('data/Processed/gdsc_cell_ge.csv').fillna(0).set_index('CCL')
-ctrp_ge = pd.read_csv('data/Processed/ctrp_cell_ge.csv').fillna(0).set_index('CCL')
-gdsc_dr = pd.read_csv('data/Processed/gdsc_poz_dr.csv').fillna(0)
-ctrp_dr = pd.read_csv('data/Processed/ctrp_poz_dr.csv').fillna(0)
+import config as c
+gdsc_ge = pd.read_csv(c.dir + 'gdsc_cell_ge.csv').fillna(0).set_index('CCL')
+ctrp_ge = pd.read_csv(c.dir + 'ctrp_cell_ge.csv').fillna(0).set_index('CCL')
+gdsc_dr = pd.read_csv(c.dir + 'gdsc_poz_dr.csv').fillna(0)
+ctrp_dr = pd.read_csv(c.dir + 'ctrp_poz_dr.csv').fillna(0)
 
 ge = {'ctrp': ctrp_ge, 'gdsc': gdsc_ge}
 dr = {'ctrp': ctrp_dr, 'gdsc': gdsc_dr}
