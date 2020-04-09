@@ -2,6 +2,6 @@
 data/
 ignore/
 log/
+venv/
 __pycache__/
 config.py
-venv/
