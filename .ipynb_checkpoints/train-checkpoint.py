@@ -46,15 +46,16 @@ metric = 'AUC_IC50'
 
 if True in data.values():
     r1, drugs = run(data, fs, feda, model, p = threshold, t=cutoff, tuning = tuning, drugs=drugs, test=test, n=n)
-
-    scores= pd.DataFrame.from_dict(drugs, orient='index')
+    
+    scores = pd.DataFrame.from_dict(drugs, orient='index')
     mean = scores.describe().loc[['mean']]['r2_score'][0]
     std = scores.describe().loc[['std']]['r2_score'][0]
     print('r_2_mean: '+ str(mean))
     print('r_2_std: '+ str(std))
     
-    model = {k:v.model.get_params() for k,v in r1.items()}
-    scores = scores.join(pd.DataFrame.from_dict(model, orient='index'))
+    result = {k:v.model.get_params() for k,v in r1.items()}
+    
+    scores = scores.join(pd.DataFrame.from_dict(result, orient='index'))
     
     scores.to_csv('scores.csv')
 
