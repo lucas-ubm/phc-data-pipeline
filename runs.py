@@ -43,7 +43,10 @@ def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=False, tuning=None, p = 
     
     # Select feature selection and model
     if not fs=='':
-        fs = models[fs]
+        if fs in ['VarianceThreshold', 'f_regression', 'mutual_info_regression']:
+            fs = models[fs]
+        else:
+            fs = models[fs]()
     
     model = models[model]()
     
