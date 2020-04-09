@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/admin/Desktop/Thesis/Code/phc-data-pipeline/venv/.guild/runs/c85d2eada3d547bca8f12ade2f7774b8/.guild/sourcecode/train.py", line 1, in <module>
-    from .runs import run
-ImportError: attempted relative import with no known parent package

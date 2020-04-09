@@ -8,15 +8,8 @@
         root: ../
         select:
           - '*.py'          
-      flags-import:
-        - feda
-        - fs
-        - model
-        - threshold
-        - data
-        - drugs
-
-        
+      flags-import: all
+      
 
 
 

@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/admin/Desktop/Thesis/Code/phc-data-pipeline/venv/.guild/runs/7427973746e14c70af2b4bd07910bd62/.guild/sourcecode/train.py", line 1, in <module>
-    from myproject.runs import run
-ModuleNotFoundError: No module named 'myproject'

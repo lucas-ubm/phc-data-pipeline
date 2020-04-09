@@ -1,5 +1,0 @@
-{'r2_score': 0.0017735771370327447, 'mean_absolute_error': 0.2587765103826869, 'mean_squared_error': 0.0925574226224882, 'median_absolute_error': 0.24404881507232862}
-{'r2_score': -0.01488359126175931, 'mean_absolute_error': 0.33396701102912163, 'mean_squared_error': 0.13594161438881577, 'median_absolute_error': 0.3175183883652795}
-{'r2_score': -0.010700744774367443, 'mean_absolute_error': 0.2127743405955646, 'mean_squared_error': 0.07185522044544286, 'median_absolute_error': 0.19266161974942203}
-[{'r2_score': 0.0017735771370327447, 'mean_absolute_error': 0.2587765103826869, 'mean_squared_error': 0.0925574226224882, 'median_absolute_error': 0.24404881507232862}, {'r2_score': -0.01488359126175931, 'mean_absolute_error': 0.33396701102912163, 'mean_squared_error': 0.13594161438881577, 'median_absolute_error': 0.3175183883652795}, {'r2_score': -0.010700744774367443, 'mean_absolute_error': 0.2127743405955646, 'mean_squared_error': 0.07185522044544286, 'median_absolute_error': 0.19266161974942203}]
-score: 7

@@ -1,5 +1,8 @@
 from runs import run
 from classes import drug
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
@@ -9,42 +12,54 @@ from classes import tuning
 import pandas as pd
 from sklearn.feature_selection import SelectKBest, SelectPercentile, f_regression, mutual_info_regression, SelectFromModel, VarianceThreshold
 
-import config as c
-gdsc_ge = pd.read_csv(c.dir + 'gdsc_cell_ge.csv').fillna(0).set_index('CCL')
-ctrp_ge = pd.read_csv(c.dir + 'ctrp_cell_ge.csv').fillna(0).set_index('CCL')
-gdsc_dr = pd.read_csv(c.dir + 'gdsc_poz_dr.csv').fillna(0)
-ctrp_dr = pd.read_csv(c.dir + 'ctrp_poz_dr.csv').fillna(0)
 
-ge = {'ctrp': ctrp_ge, 'gdsc': gdsc_ge}
-dr = {'ctrp': ctrp_dr, 'gdsc': gdsc_dr}
 t2 = {
-    'degree': [2, 3, 4, 5],
+    'degree': [2, 3, 4],
     'epsilon' : [0.1, 0.2, 0.3, 0.9],
-    'C':[0.01, 0.1, 1, 10, 100],
+    'C':[0.01, 0.1, 1, 10, 1000],
     'gamma':['scale']
 }
 tuning = tuning(t2, iterations=50, cv=3, scoring='r2')
 
-same = []
-for i in gdsc_dr['Drug_name'].unique():
-    if i in ctrp_dr['Drug_name'].unique():
-        same.append(i)
 
-d1 = str(list(dr.keys()))
-d2 = str(same[:10])
 
-fs = 'f_regression'
 feda = True
 model = 'SVR'
 threshold = 0.01
-data = 'data'
-drugs = d2 
+cutoff = 4
+test = None
 
-r1, drugs = run(same[:3], ge, dr, f_regression, feda, SVR(), n = threshold, tuning = tuning)
+gdsc = True
+ctrp = True
+ccle = False
 
-metrics = []
-for i in r1.values():
-    metrics.append(i.scores)
-metrics = str(metrics)
-print(metrics)
-print('score: '+str(7))
+fs = 'f_regression'
+n = 0
+
+data = {'gdsc':gdsc, 'ctrp':ctrp, 'ccle':ccle}
+
+
+
+
+drugs = 20
+metric = 'AUC_IC50'
+
+if True in data.values():
+    r1, drugs = run(data, fs, feda, model, p = threshold, t=cutoff, tuning = tuning, drugs=drugs, test=test, n=n)
+
+    scores= pd.DataFrame.from_dict(drugs, orient='index')
+    mean = scores.describe().loc[['mean']]['r2_score'][0]
+    std = scores.describe().loc[['std']]['r2_score'][0]
+    print('r_2_mean: '+ str(mean))
+    print('r_2_std: '+ str(std))
+    
+    model = {k:v.model.get_params() for k,v in r1.items()}
+    scores = scores.join(pd.DataFrame.from_dict(model, orient='index'))
+    
+    scores.to_csv('scores.csv')
+
+    scores.boxplot(figsize=(12,9))
+    plt.tight_layout()
+    plt.savefig('boxplot.png')
+
+
