@@ -4,6 +4,7 @@ from sklearn import linear_model
 from sklearn.feature_selection import SelectKBest, SelectPercentile, f_regression, mutual_info_regression, SelectFromModel, VarianceThreshold
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
+from sklearn import linear_model
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
@@ -56,16 +57,18 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
     :
     """
     # This is used for tree-based feature selection
-    if model in [DecisionTreeRegressor(), RandomForestRegressor()] and n==0:
+    if model in [DecisionTreeRegressor, RandomForestRegressor, linear_model.ElasticNet]:
+        model = model()
         model.fit(X_train, y)
         
         if tuning != None:
             r = RandomizedSearchCV(model, tuning.space, n_iter = tuning.iterations, n_jobs=tuning.jobs, cv= tuning.cv, scoring = tuning.scoring, iid=False)
             r.fit(X_train, y)
             model = r.best_estimator_
-            
-        fs = SelectFromModel(estimator = model, prefit=True)
-        X_train = fs.transform()
+        n = n*X_train.shape[1]
+        print(n)
+        fs = SelectFromModel(estimator = model, prefit=True, max_features = int(n))
+        X_train = fs.transform(X_train)
     
     # This is used for variance threshold selection
     elif model == VarianceThreshold:

@@ -22,7 +22,7 @@ t1 = {
     'gamma':['scale']
 }
 
-def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=False, tuning=None, p = 0.01, t = 4, metric='AUC_IC50', test=None):
+def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=None, tuning=None, p = 0.01, t = 4, metric='AUC_IC50', test=None):
     expression_data = {}
     drug_data = {}
     
@@ -46,7 +46,7 @@ def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=False, tuning=None, p = 
         if fs in ['VarianceThreshold', 'f_regression', 'mutual_info_regression']:
             fs = models[fs]
         else:
-            fs = models[fs]()
+            fs = models[fs]
     
     model = models[model]()
     
