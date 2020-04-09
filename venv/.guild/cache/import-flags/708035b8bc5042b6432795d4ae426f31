@@ -1,0 +1,1 @@
+{"feda": true, "model": "SVR", "threshold": 0.01, "cutoff": 4, "test": null, "gdsc": true, "ctrp": true, "ccle": false, "fs": "f_regression", "n": 0, "drugs": 20, "metric": "AUC_IC50", "$dest": "globals"}

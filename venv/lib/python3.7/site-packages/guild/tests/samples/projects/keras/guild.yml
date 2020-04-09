@@ -1,0 +1,7 @@
+- model: fashion
+  description: Simple classifier for Fashion-MNIST
+  operations:
+    train:
+      description: Train classifier
+      main: fashion_mnist_mlp
+      flags-import: all

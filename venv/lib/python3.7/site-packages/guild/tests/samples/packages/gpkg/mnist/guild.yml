@@ -1,0 +1,27 @@
+- model: mnist-softmax
+  description: Softmax regression classifier for MNIST
+  operations:
+    train:
+      description: Train the softmax regression
+      main: softmax
+  flags:
+    batch-size:
+      description: Number of images to include in a training batch.
+      default: 100
+    epochs:
+      description: Number of epochs to train.
+      default: 10
+
+- model: mnist-cnn
+  description: CNN classifier for MNIST
+  operations:
+    train:
+      description: Train the CNN
+      main: cnn
+  flags:
+    batch-size:
+      descrpition: Number of images to include in a training batch.
+      default: 100
+    epochs:
+      description: Number of epochs to train.
+      default: 10

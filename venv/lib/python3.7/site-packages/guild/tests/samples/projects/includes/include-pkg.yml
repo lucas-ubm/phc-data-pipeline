@@ -1,0 +1,4 @@
+- include: mnist-pkg
+
+- model: b
+  extends: intro

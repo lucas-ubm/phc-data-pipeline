@@ -1,0 +1,10 @@
+op1:
+  main: op1
+  flags-import: [a, b]
+  compare:
+    - =a as A
+    - =b as B
+    - x step as x_step
+    - x
+    - y
+    - z/ab as ab

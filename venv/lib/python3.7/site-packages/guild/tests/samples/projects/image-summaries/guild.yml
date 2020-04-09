@@ -1,0 +1,10 @@
+copy-images:
+  requires:
+    - file: favicon.png
+    - file: heart.jpg
+
+rotate-images:
+  pre-process: touch hello
+  requires:
+    - file: favicon.png
+    - file: heart.jpg

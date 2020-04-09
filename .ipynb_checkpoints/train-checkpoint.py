@@ -20,11 +20,11 @@ t2 = {
     'gamma':['scale']
 }
 tuning = tuning(t2, iterations=50, cv=3, scoring='r2')
-tuning = None
+
 
 
 feda = True
-model = 'ElasticNet'
+model = 'SVR'
 threshold = 0.01
 cutoff = 4
 test = None
@@ -34,30 +34,27 @@ ctrp = True
 ccle = False
 
 fs = 'f_regression'
-n = 0.01
+n = 0
 
 data = {'gdsc':gdsc, 'ctrp':ctrp, 'ccle':ccle}
 
 
 
 
-drugs = 3
+drugs = 20
 metric = 'AUC_IC50'
 
 if True in data.values():
     r1, drugs = run(data, fs, feda, model, p = threshold, t=cutoff, tuning = tuning, drugs=drugs, test=test, n=n)
-    
-    scores = pd.DataFrame.from_dict(drugs, orient='index')
+
+    scores= pd.DataFrame.from_dict(drugs, orient='index')
     mean = scores.describe().loc[['mean']]['r2_score'][0]
     std = scores.describe().loc[['std']]['r2_score'][0]
     print('r_2_mean: '+ str(mean))
     print('r_2_std: '+ str(std))
     
-    final = {k:v.model.get_params() for k,v in r1.items()}
-    
-    final = pd.DataFrame.from_dict(final, orient='index')
-    scores = scores.join(final)
-
+    model = {k:v.model.get_params() for k,v in r1.items()}
+    scores = scores.join(pd.DataFrame.from_dict(model, orient='index'))
     
     scores.to_csv('scores.csv')
 
