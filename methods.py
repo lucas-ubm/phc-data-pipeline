@@ -66,7 +66,7 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
             r.fit(X_train, y)
             model = r.best_estimator_
         n = n*X_train.shape[1]
-        print(n)
+        
         fs = SelectFromModel(estimator = model, prefit=True, max_features = int(n))
         X_train = fs.transform(X_train)
     

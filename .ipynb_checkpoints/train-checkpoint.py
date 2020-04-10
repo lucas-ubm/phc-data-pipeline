@@ -14,17 +14,26 @@ from sklearn.feature_selection import SelectKBest, SelectPercentile, f_regressio
 
 
 t2 = {
-    'degree': [2, 3, 4],
     'epsilon' : [0.1, 0.2, 0.3, 0.9],
     'C':[0.01, 0.1, 1, 10, 1000],
+    'kernel':['rbf', 'linear'],
     'gamma':['scale']
 }
-tuning = tuning(t2, iterations=50, cv=3, scoring='r2')
+
+t1 = {
+    'n_estimators' : [10, 50, 100, 150, 200, 500],
+    'max_depth' : [2, 3, 4, 5, 6, 7, 8, 9, 10, None],
+    'max_features': ['auto', 'sqrt', 'log2'],
+    'min_impurity_split' : [0],
+    
+    
+}
+tuning = tuning(t1, iterations=1000, cv=3, scoring='r2', jobs = -1)
 
 
 
 feda = True
-model = 'SVR'
+model = 'RandomForestRegressor'
 threshold = 0.01
 cutoff = 4
 test = None
@@ -34,7 +43,7 @@ ctrp = True
 ccle = False
 
 fs = 'f_regression'
-n = 0
+n = 0.01
 
 data = {'gdsc':gdsc, 'ctrp':ctrp, 'ccle':ccle}
 
