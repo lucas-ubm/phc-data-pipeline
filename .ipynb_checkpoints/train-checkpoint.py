@@ -13,6 +13,14 @@ import pandas as pd
 from sklearn.feature_selection import SelectKBest, SelectPercentile, f_regression, mutual_info_regression, SelectFromModel, VarianceThreshold
 
 
+t1 = {
+    'n_estimators' : [10, 50, 100, 150],
+    'max_depth' : [2, 3, 4, 5, 6, 7, 8, None],
+    'max_features': ['auto', 'sqrt', 'log2'],
+    
+    
+}
+
 t2 = {
     'epsilon' : [0.1, 0.2, 0.3, 0.9],
     'C':[0.01, 0.1, 1, 10, 1000],
@@ -20,6 +28,7 @@ t2 = {
     'gamma':['scale']
 }
 
+<<<<<<< HEAD
 t1 = {
     'n_estimators' : [10, 50, 100],
     'max_depth' : [2, 3, 4, 5, 6, 7, 8, None],
@@ -28,6 +37,18 @@ t1 = {
     
 }
 tuning = tuning(t1, iterations=20, cv=3, scoring='r2', jobs = -1)
+=======
+t3 = {
+    'alpha': [0.1, 0.5, 1, 1.5, 2],
+    'l1_ratio': [0, 0.25, 0.5, 0.75, 1],
+    'fit_intercept': [True, False],
+    'notmslize': [True, False]
+}
+
+
+
+tuning = tuning(t3, iterations=100, cv=3, scoring='r2', jobs = -1)
+>>>>>>> 658459a2a3a386d6fe4db56fe0d6ba611ebb54b3
 
 
 
