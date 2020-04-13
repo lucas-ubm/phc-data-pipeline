@@ -21,13 +21,13 @@ t2 = {
 }
 
 t1 = {
-    'n_estimators' : [10, 50, 100, 150, 200],
+    'n_estimators' : [10, 50, 100],
     'max_depth' : [2, 3, 4, 5, 6, 7, 8, None],
     'max_features': ['auto', 'sqrt', 'log2'],
     
     
 }
-tuning = tuning(t1, iterations=200, cv=3, scoring='r2', jobs = -1)
+tuning = tuning(t1, iterations=20, cv=3, scoring='r2', jobs = -1)
 
 
 
