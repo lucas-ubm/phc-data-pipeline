@@ -57,7 +57,7 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
     :
     """
     # This is used for tree-based feature selection
-    if model in [DecisionTreeRegressor, RandomForestRegressor, linear_model.ElasticNet]:
+    if model in [DecisionTreeRegressor, RandomForestRegressor, linear_model.ElasticNet, linear_model.Lasso]:
         model = model()
         model.fit(X_train, y)
         

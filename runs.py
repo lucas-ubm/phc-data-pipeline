@@ -11,8 +11,10 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 import config as c
 import pandas as pd
+import xgboost as xgb
+import lightgbm as lgb
 
-models = [RandomForestRegressor, SVR, KNeighborsRegressor, RandomForestRegressor, DecisionTreeRegressor, VarianceThreshold, f_regression, mutual_info_regression, linear_model.ElasticNet]
+models = [RandomForestRegressor, SVR, KNeighborsRegressor, RandomForestRegressor, DecisionTreeRegressor, VarianceThreshold, f_regression, mutual_info_regression, linear_model.ElasticNet, linear_model.Lasso, xgb.XGBRegressor, lgb.LGBMRegressor]
 models = {k.__name__:k for k in models}
 
 t1 = {
@@ -42,12 +44,8 @@ def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=None, tuning=None, p = 0
     names = names[:min(len(names), drugs)]
     
     # Select feature selection and model
-    if not fs=='':
-        if fs in ['VarianceThreshold', 'f_regression', 'mutual_info_regression']:
-            fs = models[fs]
-        else:
-            fs = models[fs]
-    
+    fs = models[fs]
+
     model = models[model]()
     
     # Select tuning
