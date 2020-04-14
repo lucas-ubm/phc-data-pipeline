@@ -67,7 +67,7 @@ t7 = {
     'max_features': ['auto', 'sqrt', 'log2']
 }
 
-tuning = tuning(t6, iterations=50, cv=5, scoring='r2', jobs = -1)
+tuning = tuning(t7, iterations=50, cv=5, scoring='r2', jobs = -1)
 
 
 
