@@ -9,11 +9,9 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import median_absolute_error
 from sklearn.svm import SVR
-import xgboost as xgb
 from classes import tuning
 import pandas as pd
 from sklearn.feature_selection import SelectKBest, SelectPercentile, f_regression, mutual_info_regression, SelectFromModel, VarianceThreshold
-from hyperopt import hp
 
 t1 = {
     'n_estimators' : [10, 50, 100, 150],
@@ -67,7 +65,7 @@ t7 = {
     'max_features': ['auto', 'sqrt', 'log2']
 }
 
-tuning = tuning(t6, iterations=50, cv=5, scoring='r2', jobs = -1)
+tuning = tuning(t7, iterations=50, cv=5, scoring='r2', jobs = -1)
 
 
 
@@ -78,19 +76,19 @@ cutoff = 4
 test = None
 
 gdsc = True
-ctrp = True
-ccle = False
+ctrp = False
+ccle = True
 
-fs = 'Lasso'
-n = 0.005
+fs = 'f_regression'
+n = 0.199108
 
 data = {'gdsc':gdsc, 'ctrp':ctrp, 'ccle':ccle}
 
 
 
 
-drugs = 5
-metric = 'AUC_IC50'
+drugs = 1
+metric = 'AUC_EC50'
 
 if True in data.values():
     r1, drugs = run(data, fs, feda, model, p = threshold, t=cutoff, tuning = tuning, drugs=drugs, test=test, n=n)
@@ -106,6 +104,9 @@ if True in data.values():
     scores = scores.join(pd.DataFrame.from_dict(result, orient='index'))
     
     scores.to_csv('scores.csv')
+    
+    for i in drugs.values:
+        print(i.get('y', 'test'))
 
     scores.boxplot(figsize=(12,9))
     plt.tight_layout()

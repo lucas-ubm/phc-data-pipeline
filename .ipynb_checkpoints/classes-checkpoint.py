@@ -65,7 +65,7 @@ class drug:
         elif len(self.da) > 0:
             return self.da[split]
         elif len(self.col) > 0:
-            return self.data.loc[self.X[split]][self.col]
+            return self.data.loc[self.X[split]][self.col].drop(self.metric, axis = 1)
         elif data == 'X':
             return self.data.loc[self.X[split]].drop(self.metric, axis = 1)
         
@@ -77,6 +77,7 @@ class drug:
             if ele:
                 col.append(self.data.keys()[i])
         col.append(self.metric)
+        print(col)
         self.col = col
     
     def feda(self):
@@ -115,7 +116,7 @@ class drug:
         scores = {}
         for metric in arr:
             scores[metric.__name__] = metric(self.get('y', 'test'), self.predicted)
-        self.scores = pd.DataFrame.from_dict(scores, orient='columns')
+        self.scores = scores
         return scores
     
     def to_json(self):

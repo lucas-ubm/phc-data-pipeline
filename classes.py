@@ -65,7 +65,7 @@ class drug:
         elif len(self.da) > 0:
             return self.da[split]
         elif len(self.col) > 0:
-            return self.data.loc[self.X[split]][self.col]
+            return self.data.loc[self.X[split]][self.col].drop(self.metric, axis = 1)
         elif data == 'X':
             return self.data.loc[self.X[split]].drop(self.metric, axis = 1)
         

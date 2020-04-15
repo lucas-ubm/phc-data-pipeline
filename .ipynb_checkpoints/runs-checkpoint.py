@@ -11,10 +11,10 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 import config as c
 import pandas as pd
-import xgboost as xgb
-import lightgbm as lgb
+#import xgboost as xgb
+#import lightgbm as lgb
 
-models = [RandomForestRegressor, SVR, KNeighborsRegressor, RandomForestRegressor, DecisionTreeRegressor, VarianceThreshold, f_regression, mutual_info_regression, linear_model.ElasticNet, linear_model.Lasso, xgb.XGBRegressor, lgb.LGBMRegressor]
+models = [RandomForestRegressor, SVR, KNeighborsRegressor, RandomForestRegressor, DecisionTreeRegressor, VarianceThreshold, f_regression, mutual_info_regression, linear_model.ElasticNet, linear_model.Lasso] #xgb.XGBRegressor, lgb.LGBMRegressor
 models = {k.__name__:k for k in models}
 
 t1 = {
