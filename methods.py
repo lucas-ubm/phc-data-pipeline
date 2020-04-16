@@ -66,9 +66,10 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
             r.fit(X_train, y)
             model = r.best_estimator_
         n = n*X_train.shape[1]
+
         
-        fs = SelectFromModel(estimator = model, prefit=True, max_features = int(n))
-        X_train = fs.transform(X_train)
+        fs = SelectFromModel(estimator = model, max_features = int(n), threshold=-np.inf)
+        X_train = fs.fit_transform(X_train, y)
     
     # This is used for variance threshold selection
     elif model == VarianceThreshold:
@@ -77,18 +78,16 @@ def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning
 
     # This is used for selectkbest and selectpercentile
     else:
-        if n < 1:
-            n = n*100
-            fs = SelectPercentile(model, n)
-        else:
-            fs = SelectKBest(model, n)
-            
+        n = int(n*X_train.shape[1])
+        fs = SelectKBest(model, k = n)
+        
+
         X_train = fs.fit_transform(X_train, y)
         
     var = fs.get_support()
     index = [i for i, x in enumerate(var) if x]
     X_test = np.apply_along_axis(lambda x: x[index], 1, X_test)
-    
+    print('After fs '+str(X_test.shape) +' ' +str(X_train.shape))
     return X_train, X_test, var
 
 def jump(domain, n, data):

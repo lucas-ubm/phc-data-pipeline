@@ -13,7 +13,7 @@ from classes import tuning
 import pandas as pd
 from sklearn.feature_selection import SelectKBest, SelectPercentile, f_regression, mutual_info_regression, SelectFromModel, VarianceThreshold
 
-t1 = {
+rf = {
     'n_estimators' : [10, 50, 100, 150],
     'max_depth' : [2, 3, 4, 5, 6, 7, 8, None],
     'max_features': ['auto', 'sqrt', 'log2'],
@@ -21,14 +21,14 @@ t1 = {
     
 }
 
-t2 = {
+svr = {
     'C':[1, 10, 50, 100, 250, 500, 750, 1000],
     'kernel':['rbf', 'linear'],
     'gamma':['scale']
 }
 
 
-t3 = {
+en = {
     'alpha': [0.5, 1, 1.5, 2, 5],
     'l1_ratio': [0, 0.25, 0.5, 0.75, 1],
     'max_iter': [5000]
@@ -51,7 +51,7 @@ t5 = {
     
 }
 
-t6 = {
+knn = {
     'n_neighbors': range(2, 30, 1),
     'weights': ['uniform', 'distance'],
     'algorithm': ['ball_tree', 'kd_tree'],
@@ -59,13 +59,13 @@ t6 = {
     'n_jobs': [-1]
 }
 
-t7 = {
+dt = {
     'criterion': ['mse', 'mae'],
     'max_depth': range(2, 40, 2),
     'max_features': ['auto', 'sqrt', 'log2']
 }
 
-tuning = tuning(t7, iterations=50, cv=5, scoring='r2', jobs = -1)
+ts = {'KNeighborsRegressor':knn, 'SVR':svr, 'DecisionTreeRegressor':dt, 'RandomForestRegressor':rf, 'ElasticNet':en}
 
 
 
@@ -83,6 +83,7 @@ fs = 'f_regression'
 n = 0.199108
 
 data = {'gdsc':gdsc, 'ctrp':ctrp, 'ccle':ccle}
+tuning = tuning(ts[model], iterations=50, cv=5, scoring='r2', jobs = -1)
 
 
 
@@ -105,8 +106,6 @@ if True in data.values():
     
     scores.to_csv('scores.csv')
     
-    for i in drugs.values:
-        print(i.get('y', 'test'))
 
     scores.boxplot(figsize=(12,9))
     plt.tight_layout()

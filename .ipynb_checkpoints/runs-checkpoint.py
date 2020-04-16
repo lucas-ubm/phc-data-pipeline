@@ -58,6 +58,7 @@ def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=None, tuning=None, p = 0
         ele = drug(i, expression_data, drug_data)
         ele.pre(p = p, t = t)
         ele.combine(metric = metric)
+        print(ele.data.shape)
         ele.split(test = test)
         if not fs=='':
             ele.fs(fs, n=n, tuning=fs_tuning)
