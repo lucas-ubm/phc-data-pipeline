@@ -80,6 +80,7 @@ ctrp = False
 ccle = True
 
 fs = 'f_regression'
+norm = ''
 n = 0.199108
 
 data = {'gdsc':gdsc, 'ctrp':ctrp, 'ccle':ccle}
@@ -92,7 +93,7 @@ drugs = 1
 metric = 'AUC_EC50'
 
 if True in data.values():
-    r1, drugs = run(data, fs, feda, model, p = threshold, t=cutoff, tuning = tuning, drugs=drugs, test=test, n=n)
+    r1, drugs = run(data, fs, feda, model, p = threshold, t=cutoff, tuning = tuning, drugs=drugs, test=test, n=n, norm=norm)
     
     scores = pd.DataFrame.from_dict(drugs, orient='index')
     mean = scores.describe().loc[['mean']]['r2_score'][0]

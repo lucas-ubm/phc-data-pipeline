@@ -6,6 +6,7 @@ from methods import pre
 from methods import fs
 from methods import feda
 from methods import drp
+from methods import norm
 from inspect import getmembers
 import time
 
@@ -30,11 +31,17 @@ class drug:
         self.col = []
         self.da = {}
         self.predicted = []
+    
+    def norm(self, model):
+        ge = self.ge
         
+        self.ge = pd.DataFrame(norm(model, self.ge), index=ge.index, columns=ge.keys())
         
     def pre(self, p = 0.01, t=4):
         self.data = pre(self.ge, p, t)
         del self.ge
+    
+    
         
     def combine(self, metric='AUC_IC50'):
         data = {}
@@ -77,7 +84,6 @@ class drug:
             if ele:
                 col.append(self.data.keys()[i])
         col.append(self.metric)
-        print(col)
         self.col = col
     
     def feda(self):

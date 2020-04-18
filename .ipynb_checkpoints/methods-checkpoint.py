@@ -9,6 +9,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import RandomizedSearchCV
+from sklearn.preprocessing import QuantileTransformer
 
 
 def run(drug, pre, norm, fs, da, model, test = None):
@@ -49,6 +50,13 @@ def pre(data: pd.DataFrame, p = 0.1, t = 4) -> pd.DataFrame:
         
         return data[index]
 
+def norm(model, ge):
+    if model == QuantileTransformer:
+        model = model(output_distribution='normal')
+    else:
+        model = model()
+    return model.fit_transform(ge)
+    
 
 
 def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning=None):

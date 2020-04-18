@@ -9,6 +9,10 @@ from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MaxAbsScaler
+from sklearn.preprocessing import QuantileTransformer
 import config as c
 import pandas as pd
 #import xgboost as xgb
@@ -17,6 +21,9 @@ import pandas as pd
 models = [RandomForestRegressor, SVR, KNeighborsRegressor, RandomForestRegressor, DecisionTreeRegressor, VarianceThreshold, f_regression, mutual_info_regression, linear_model.ElasticNet, linear_model.Lasso] #xgb.XGBRegressor, lgb.LGBMRegressor
 models = {k.__name__:k for k in models}
 
+norms = [StandardScaler, MinMaxScaler, MaxAbsScaler, QuantileTransformer]
+norms = {k.__name__:k for k in norms}
+
 t1 = {
     'epsilon' : [0.1, 0.2, 0.3, 0.9],
     'C':[0.01, 0.1, 1, 10, 1000],
@@ -24,7 +31,7 @@ t1 = {
     'gamma':['scale']
 }
 
-def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=None, tuning=None, p = 0.01, t = 4, metric='AUC_IC50', test=None):
+def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=None, norm='', tuning=None, p = 0.01, t = 4, metric='AUC_IC50', test=None):
     expression_data = {}
     drug_data = {}
     
@@ -48,17 +55,17 @@ def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=None, tuning=None, p = 0
 
     model = models[model]()
     
-    # Select tuning
-    
-        
-
+    # Select normalization
+    if norm in norms:
+        norm = norms[norm]
     
     drugs = {}
     for i in names:
         ele = drug(i, expression_data, drug_data)
+        if not norm=='':
+            ele.norm(norm)
         ele.pre(p = p, t = t)
         ele.combine(metric = metric)
-        print(ele.data.shape)
         ele.split(test = test)
         if not fs=='':
             ele.fs(fs, n=n, tuning=fs_tuning)
