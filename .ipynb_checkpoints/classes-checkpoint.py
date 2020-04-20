@@ -96,10 +96,10 @@ class drug:
             if i in self.data.index:
                 train_domains.append(X_train.loc[i].to_numpy())
                 test_domains.append(X_test.loc[i].to_numpy())
+        
             
-            
-        self.da['train'] = feda(train_domains)
-        self.da['test'] = feda(test_domains)
+        self.da['train'] = pd.DataFrame(feda(train_domains))
+        self.da['test'] = pd.DataFrame(feda(test_domains))
         
     def train(self, model, tuning=None):
         X = self.get('X', 'train')
