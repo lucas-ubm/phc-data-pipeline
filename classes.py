@@ -33,14 +33,13 @@ class drug:
         self.predicted = []
     
     def norm(self, model):
-        ge = self.ge
+        ge = self.ge.copy()
         
         self.ge = pd.DataFrame(norm(model, self.ge), index=ge.index, columns=ge.keys())
         
     def pre(self, p = 0.01, t=4):
         self.data = pre(self.ge, p, t)
-        del self.ge
-    
+         
     
         
     def combine(self, metric='AUC_IC50'):

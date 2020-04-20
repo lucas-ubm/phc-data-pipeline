@@ -1,0 +1,2 @@
+,r2_score,mean_absolute_error,mean_squared_error,median_absolute_error,criterion,max_depth,max_features,max_leaf_nodes,min_impurity_decrease,min_impurity_split,min_samples_leaf,min_samples_split,min_weight_fraction_leaf,presort,random_state,splitter
+Nilotinib,-0.13759024823640287,0.10952072910815672,0.041090725754664686,0.05304619723929205,mae,12,sqrt,,0.0,,1,2,0.0,False,,best
