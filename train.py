@@ -87,8 +87,6 @@ data = {'gdsc':gdsc, 'ctrp':ctrp, 'ccle':ccle}
 tuning = tuning(ts[model], iterations=35, cv=3, scoring='r2', jobs = -1)
 
 
-
-
 drugs = 1
 metric = 'AUC_EC50'
 
