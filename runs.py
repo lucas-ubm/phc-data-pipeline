@@ -31,7 +31,7 @@ t1 = {
     'gamma':['scale']
 }
 
-def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=None, norm='', tuning=None, p = 0.01, t = 4, metric='AUC_IC50', test=None):
+def run(ge, fs, feda, model, drugs=1000, n=0, ajive = 0,fs_tuning=None, norm='', tuning=None, p = 0.01, t = 4, metric='AUC_IC50', test=None):
     expression_data = {}
     drug_data = {}
     
@@ -71,6 +71,8 @@ def run(ge, fs, feda, model, drugs=1000, n=0, fs_tuning=None, norm='', tuning=No
             ele.fs(fs, n=n, tuning=fs_tuning)
         if feda:
             ele.feda()
+        if ajive > 0:
+            ele.ajive(ajive)
         ele.train(model, tuning=tuning)
         ele.metrics([r2_score, mean_absolute_error, mean_squared_error, median_absolute_error])
         drugs[i] = ele

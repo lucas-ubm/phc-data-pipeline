@@ -7,6 +7,8 @@ from methods import fs
 from methods import feda
 from methods import drp
 from methods import norm
+from methods import ajive
+from methods import group_ajive
 from inspect import getmembers
 import time
 
@@ -29,7 +31,7 @@ class drug:
         
         ##Maybe I could have a dict of steps with key = method name value = True if run False else
         self.col = []
-        self.da = {}
+        self.ajive = {}
         self.predicted = []
     
     def norm(self, model):
@@ -64,6 +66,7 @@ class drug:
         
         self.X = {'train': X_train.index, 'test': X_test.index}
         self.y = {'train': y_train.index, 'test': y_test.index}
+
     
     def get(self, data, split):
         if data =='y':
@@ -84,6 +87,12 @@ class drug:
                 col.append(self.data.keys()[i])
         col.append(self.metric)
         self.col = col
+    
+    def ajive(self, joint):
+        if len(da) == 0:
+            data = {'train':self.get('X', 'train'), 'test': self.get('X', 'test')}
+            self.da = group_ajive(data, joint)
+        
     
     def feda(self):
         train_domains = []
@@ -123,13 +132,7 @@ class drug:
             scores[metric.__name__] = metric(self.get('y', 'test'), self.predicted)
         self.scores = scores
         return scores
-    
-    def to_json(self):
 
-        attributes = {k:v for (k, v) in getmembers(self) if not k.startswith('__') and not callable(v)}
-        for k,v in attributes.items():
-            print(k)
-            print(type(v))
             
         
 class tuning:

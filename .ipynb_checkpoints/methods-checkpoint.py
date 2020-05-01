@@ -10,6 +10,10 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.preprocessing import QuantileTransformer
+from functools import reduce
+from jive.AJIVE import AJIVE
+from jive.PCA import PCA
+
 
 
 def run(drug, pre, norm, fs, da, model, test = None):
@@ -28,7 +32,8 @@ def run(drug, pre, norm, fs, da, model, test = None):
         X_train, X_test, var = fs(fs.model, X_train, X_test, fs.tuning)
     
     #if da != None:
-        
+
+
 
         
 
@@ -57,8 +62,54 @@ def norm(model, ge):
         model = model()
     return model.fit_transform(ge)
     
+def group_ajive(data,joint):
+    result = {}
+    train, model = ajive(data['train'],joint)
+    result['train'] = train
+    result['test'] = ajive_predict(model, data['test'])
+    return result
 
+def ajive(data, joint):
+    #Only overlapping cancer cell lines will be used
+    blocks = {j:data.loc[j] for j in data.index.levels[0]}
+    ccls = {k:v.index for k,v in blocks.items()}
+    overlap = reduce(np.intersect1d, ccls.values())
+    blocks = {k:v.loc[overlap] for k, v in blocks.items()}
+    init = {k:svals(v, joint) for k,v in blocks.items()}
+    
+    model = AJIVE(init, joint_rank=joint)
+    model.fit(blocks)
+    result = ajive_predict(model, data)
 
+    return result, model
+
+def ajive_predict(model, data):
+    mod = {}
+    for i in model.blocks.keys():
+        for j, ele in enumerate(model.blocks[i].joint.predict_scores(data.loc[i])):
+            mod[(i, data.loc[i].index[j])] = list(ele)
+    result = pd.DataFrame(mod.values(), index=mod.keys())
+    
+    return result
+    
+
+def svals(data, joint):
+    init = 0
+    last = 0
+    previous_step = 0
+    
+    for i in PCA().fit(data).svals_:
+        if last-i < 0.2*previous_step:
+            init += 1
+        previous_step = last-i
+        last = i
+    return max(init, joint)
+            
+    
+    
+    
+    
+    
 def fs(model, X_train: np.ndarray, X_test: np.ndarray, y:np.ndarray, n=0, tuning=None):
     """ Returns a subset of {X_train} and {X_test} with features being selected by the method {model}
     :param int n: it can be the variance thereshold or the number of chosen features 
