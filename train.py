@@ -75,6 +75,7 @@ threshold = 0.01
 cutoff = 4
 test = None
 
+ajive = 0
 gdsc = True
 ctrp = False
 ccle = True

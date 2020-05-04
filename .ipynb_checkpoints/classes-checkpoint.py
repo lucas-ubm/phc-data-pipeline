@@ -31,7 +31,7 @@ class drug:
         
         ##Maybe I could have a dict of steps with key = method name value = True if run False else
         self.col = []
-        self.ajive = {}
+        self.da = {}
         self.predicted = []
     
     def norm(self, model):

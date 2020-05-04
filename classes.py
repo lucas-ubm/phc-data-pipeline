@@ -31,7 +31,7 @@ class drug:
         
         ##Maybe I could have a dict of steps with key = method name value = True if run False else
         self.col = []
-        self.ajive = {}
+        self.da = {}
         self.predicted = []
     
     def norm(self, model):
@@ -89,7 +89,7 @@ class drug:
         self.col = col
     
     def ajive(self, joint):
-        if len(da) == 0:
+        if len(self.da) == 0:
             data = {'train':self.get('X', 'train'), 'test': self.get('X', 'test')}
             self.da = group_ajive(data, joint)
         

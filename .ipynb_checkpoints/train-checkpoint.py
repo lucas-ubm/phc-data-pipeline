@@ -75,6 +75,7 @@ threshold = 0.01
 cutoff = 4
 test = None
 
+ajive = 0
 gdsc = True
 ctrp = False
 ccle = True
@@ -85,8 +86,6 @@ n = 0.199108
 
 data = {'gdsc':gdsc, 'ctrp':ctrp, 'ccle':ccle}
 tuning = tuning(ts[model], iterations=35, cv=3, scoring='r2', jobs = -1)
-
-
 
 
 drugs = 1

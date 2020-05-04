@@ -69,9 +69,9 @@ def run(ge, fs, feda, model, drugs=1000, n=0, ajive = 0,fs_tuning=None, norm='',
         ele.split(test = test)
         if not fs=='':
             ele.fs(fs, n=n, tuning=fs_tuning)
-        if feda:
+        if feda and ajive ==0:
             ele.feda()
-        if ajive > 0:
+        if ajive > 0 and not feda:
             ele.ajive(ajive)
         ele.train(model, tuning=tuning)
         ele.metrics([r2_score, mean_absolute_error, mean_squared_error, median_absolute_error])
