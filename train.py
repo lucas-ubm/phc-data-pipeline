@@ -92,6 +92,7 @@ drugs = 1
 metric = 'AUC_EC50'
 
 if True in data.values():
+    
     r1, drugs = run(data, fs, feda, model, p = threshold, t=cutoff, tuning = tuning, drugs=drugs, test=test, n=n, norm=norm)
     
     scores = pd.DataFrame.from_dict(drugs, orient='index')
@@ -110,5 +111,8 @@ if True in data.values():
     scores.boxplot(figsize=(12,9))
     plt.tight_layout()
     plt.savefig('boxplot.png')
+    
+    
+    
 
 
