@@ -4,9 +4,8 @@ Pharmaacogenmoic pipeline documentation
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   modules
 
-.. automodule:: classes
-   :members:
 Indices and tables
 ==================
 
