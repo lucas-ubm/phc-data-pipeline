@@ -12,17 +12,47 @@ from methods import group_ajive
 from inspect import getmembers
 import time
 
-    
+
+
+"""The classes used to run the Pharmacogenomic ML pipeline.
+
+This module contains two classes, tuning is used to define a hyper parameter search space to optimize the performance of a method on a validation set. The drug class allows us to create, train and test a drug resistance prediction model for a specific drug. It includes each of the methods necessary for preprocessing, normalization, feature selection, domain adaptation, drug resistance prediction and retrieval of results.
+
+Example:
+  aag = drug('17-AAG', {'ctrp':ctrp_ge, 'gdsc':'gdsc_ge'}, {'ctrp':ctrp_dr, 'gdsc':'gdsc_dr'})
+  aag.pre()
+  aag.norm(MinMaxScaler)
+  aag.combine()
+  aag.split()
+  aag.fs(ElasticNet, n=0.2, )
+  aag.ajive(2)
+  aag.train(RandomForestRegressor)
+  aag.metrics([r2_score, mean_absolute_error, mean_squared_error, median_absolute_error])
+"""
+
+
+# The tuning class helps define a search space to optimize the hyper parameters of a method using sklearn's
+# RandomizedSearchCV
 class tuning:
     def __init__(self, space, iterations=100, scoring = 'r2', cv=3, jobs = -2):
         self.space = space
         self.iterations = iterations
         self.scoring = scoring
         self.cv = cv
-        self.jobs = jobs
-        
+        self.jobs = jobs        
+
 class drug:
+    """Class used for training drug resistance model
+
+    The drug class allows us to create, train and test a drug resistance prediction model for a specific drug. It includes each of the methods necessary for preprocessing, normalization, feature selection, domain adaptation, drug resistance prediction and retrieval of results.
     
+    Attributes:
+        name (str): the name of the drug for which the model is trained
+        ge (dict): a dictionary containing the different domains as keys and the gene expression data
+            from that domain as value
+        dr (dict): a dictionary containing the different domains as keys and the gene expression data
+            from that domain as value
+    """
     def __init__(self, name, ge, dr):
         self.name = name
         self.ge = pd.concat(ge, sort = False)
@@ -89,7 +119,7 @@ class drug:
         self.col = col
     
     def ajive(self, joint):
-        if len(da) == 0:
+        if len(self.da) == 0:
             data = {'train':self.get('X', 'train'), 'test': self.get('X', 'test')}
             self.da = group_ajive(data, joint)
         
@@ -134,12 +164,4 @@ class drug:
         return scores
 
             
-        
-class tuning:
-    def __init__(self, space, iterations=100, scoring = 'r2', cv=3, jobs = -2):
-        self.space = space
-        self.iterations = iterations
-        self.scoring = scoring
-        self.cv = cv
-        self.jobs = jobs 
         

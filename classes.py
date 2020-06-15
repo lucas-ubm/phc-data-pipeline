@@ -42,6 +42,17 @@ class tuning:
         self.jobs = jobs        
 
 class drug:
+    """Class used for training drug resistance model
+
+    The drug class allows us to create, train and test a drug resistance prediction model for a specific drug. It includes each of the methods necessary for preprocessing, normalization, feature selection, domain adaptation, drug resistance prediction and retrieval of results.
+    
+    Attributes:
+        name (str): the name of the drug for which the model is trained
+        ge (dict): a dictionary containing the different domains as keys and the gene expression data
+            from that domain as value
+        dr (dict): a dictionary containing the different domains as keys and the gene expression data
+            from that domain as value
+    """
     def __init__(self, name, ge, dr):
         self.name = name
         self.ge = pd.concat(ge, sort = False)
