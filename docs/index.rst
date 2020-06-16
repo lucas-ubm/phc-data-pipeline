@@ -1,14 +1,9 @@
-Pharmaacogenmoic pipeline documentation
+Pharmacogenmoic pipeline documentation
 ====================================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
+   
    modules
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

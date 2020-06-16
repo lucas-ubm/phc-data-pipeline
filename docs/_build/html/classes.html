@@ -1,0 +1,426 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>classes module &mdash; Pharmacogenomic pipeline 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="config module" href="config.html" />
+    <link rel="prev" title="phc-data-pipeline" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Pharmacogenomic pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">phc-data-pipeline</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">classes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html">methods module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runs.html">runs module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Pharmacogenomic pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">phc-data-pipeline</a> &raquo;</li>
+        
+      <li>classes module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/classes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-classes">
+<span id="classes-module"></span><h1>classes module<a class="headerlink" href="#module-classes" title="Permalink to this headline">¶</a></h1>
+<p>The classes used to run the Pharmacogenomic ML pipeline.</p>
+<p>This module contains two classes, tuning is used to define a hyper parameter search space to optimize the performance of a method on a validation set. The drug class allows us to create, train and test a drug resistance prediction model for a specific drug. It includes each of the methods necessary for preprocessing, normalization, feature selection, domain adaptation, drug resistance prediction and retrieval of results.</p>
+<dl class="py class">
+<dt id="classes.drug">
+<em class="property">class </em><code class="sig-prename descclassname">classes.</code><code class="sig-name descname">drug</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">ge</span></em>, <em class="sig-param"><span class="n">dr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class used for training drug resistance model</p>
+<p>The drug class allows us to create, train and test a drug resistance prediction model for a specific drug. It includes each of the methods necessary for preprocessing, normalization, feature selection, domain adaptation, drug resistance prediction and retrieval of results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – the name of the drug for which the model is trained</p></li>
+<li><p><strong>ge</strong> (<em>dict</em>) – a dictionary containing the different domains as keys and the gene expression data
+from that domain as value</p></li>
+<li><p><strong>dr</strong> (<em>dict</em>) – a dictionary containing the different domains as keys and the gene expression data
+from that domain as value</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="classes.drug.ajive">
+<code class="sig-name descname">ajive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">joint</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.ajive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs Angle-based Joint and Individual Variation (AJIVE), a type of Domain Adaptation</p>
+<p>This method performs domain adaptation on the drug data by using the <a class="reference internal" href="methods.html#methods.group_ajive" title="methods.group_ajive"><code class="xref py py-func docutils literal notranslate"><span class="pre">group_ajive()</span></code></a> method.
+It then stores the transformed data as a dataframe on the <cite>da</cite> variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>joint</strong> (<em>int</em>) – determines the rank of the joint space of the domains</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.combine">
+<code class="sig-name descname">combine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metric</span><span class="o">=</span><span class="default_value">'AUC_IC50'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.combine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines drug resistance and gene expression data</p>
+<p>This method puts gene expression and drug resistance data together into one dataframe and then stores
+this in the drug’s data object. It does so by using the method <a class="reference internal" href="methods.html#methods.combine" title="methods.combine"><code class="xref py py-func docutils literal notranslate"><span class="pre">combine()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metric</strong> (<em>str</em>) – determines the drug resistance measure that will be used.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.feda">
+<code class="sig-name descname">feda</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.feda" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs Frustratingly Easy Domain Adaptation, a type of Domain Adaptation.</p>
+<p>This method performs domain adaptation on the drug data by using the <a class="reference internal" href="methods.html#methods.feda" title="methods.feda"><code class="xref py py-func docutils literal notranslate"><span class="pre">feda()</span></code></a> method.
+It then stores the transformed data as a dataframe on the <cite>da</cite> variable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.fs">
+<code class="sig-name descname">fs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">tuning</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.fs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects features using the given model</p>
+<p>This method selects the best features based on a given model. Then the optimal features are
+stored so they can be selected to be retrieved when using <code class="xref py py-func docutils literal notranslate"><span class="pre">get()</span></code>. The features
+are selected using <a class="reference internal" href="methods.html#methods.fs" title="methods.fs"><code class="xref py py-func docutils literal notranslate"><span class="pre">fs()</span></code></a> and then we store the subset of columns selected on
+the <cite>col</cite> variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>estimator object</em>) – this is the method that will
+be used to determine the best features</p></li>
+<li><p><strong>n</strong> (<em>float</em>) – determines what percentage of the features will be selected</p></li>
+<li><p><strong>tuning</strong> (<cite>classes.tuning</cite>) – defines a hyper parameter search space over which the feature selection
+method can be optimized.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">split</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the data requested</p>
+<p>This method returns the appropriate data that is requested by specifying split and whether labels or features are needed.
+It takes into account if preprocessing, feature selection and domain adaptation have been performed already.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>str</em>) – can be either ‘X’ or ‘y’ which will return features or labels respectively.</p></li>
+<li><p><strong>split</strong> (<em>str</em>) – can be either ‘train’ or ‘test’ which will return either the train or test split</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pandas dataframe containing the split of features or labels that was requested</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.metrics">
+<code class="sig-name descname">metrics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the prediction scores as defined on <cite>arr</cite></p>
+<p>Given the predicted labels and the actual labels it calculates all of the metrics
+defined on <cite>arr</cite>. It then stores the resulting scores on the drug object and returns
+them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>DataFrame</em><em> or </em><em>numpy array</em>) – samples for which the labels should be calculated</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary containing the name of the scoring function as key and the actual
+score as value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.norm">
+<code class="sig-name descname">norm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies normalization to data</p>
+<p>Retrieves the gene expression data and normalizes it using the method given by <cite>model</cite>. Then it stores the normalized
+data on the gene expression dataframe. For this the method <a class="reference internal" href="methods.html#methods.norm" title="methods.norm"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm()</span></code></a> is used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<cite>sklearn.base.TransformerMixin</cite>) – a normalization method on which fit_transform can be called</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.pre">
+<code class="sig-name descname">pre</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">t</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.pre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies pre-processing to data</p>
+<p>Performs pre-processing on the gene expression data and stores it on the data pandas dataframe.
+To do this it uses the preprocessing method <a class="reference internal" href="methods.html#methods.pre" title="methods.pre"><code class="xref py py-func docutils literal notranslate"><span class="pre">pre()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>float</em>) – determines the threshold below which genes are considered to be unexpressed</p></li>
+<li><p><strong>p</strong> (<em>float</em>) – is in the range ]0,1] and determines what is the minimum percentage of the CCLs that
+needs to be expressed. If the actual percentage is smaller then that specific gene will be dropped.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X=Empty DataFrame Columns: [] Index: []</em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicts the labels of the given samples based on the features using
+the trained model</p>
+<p>Predicts the labels of the samples in <cite>X</cite> using the trained model. In case no <cite>X</cite>
+is provided the test split previously defined will be used. The predicted labels
+are both stored on the drug object and returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>DataFrame</em><em> or </em><em>numpy array</em>) – samples for which the labels should be calculated</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pandas dataframe or numpy array containing the predicted labels.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.split">
+<code class="sig-name descname">split</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">test</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits the data on train and test set</p>
+<p>This method splits the data into train and test set so methods can be trained on the train set and evaluated on the
+test set. For this sklearn’s <code class="xref py py-func docutils literal notranslate"><span class="pre">train_test_split()</span></code> method is used, stratifying on the domain.
+Then the indices of the elements in the train and test split are stored on two dictionaries so they can be retrieved
+from the drug object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>test</strong> (<em>float</em>) – determines what percentage of the data is put into the test split. <cite>None</cite> represents the sklearn default value
+which is 0.25</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.drug.train">
+<code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">tuning</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trains model on drug data.</p>
+<p>Trains the model specified on <cite>model</cite> on the train split of the data by using the method
+<a class="reference internal" href="methods.html#methods.drp" title="methods.drp"><code class="xref py py-func docutils literal notranslate"><span class="pre">drp()</span></code></a> method. It then stores the model on the drug’s <cite>model</cite> variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>estimator object</em>) – model that will be trained on the data</p></li>
+<li><p><strong>tuning</strong> (<cite>classes.tuning</cite>) – hyper parameter search space over which
+the model will be optimized. If not specified default values will
+be used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="classes.tuning">
+<em class="property">class </em><code class="sig-prename descclassname">classes.</code><code class="sig-name descname">tuning</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">space</span></em>, <em class="sig-param"><span class="n">iterations</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">scoring</span><span class="o">=</span><span class="default_value">'r2'</span></em>, <em class="sig-param"><span class="n">cv</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">jobs</span><span class="o">=</span><span class="default_value">- 2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.tuning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class used for defining a hyper parameter search space where a model is optimized.</p>
+<p>This class helps us describe the parameters needed for a Randomized search on a number
+of hyper parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>space</strong> (<em>dict</em>) – contains the parameters as keys and the possible values for the parameters as values</p></li>
+<li><p><strong>iterations</strong> (<em>int</em>) – the number of iterations to test before determining the optimal hyper parameters</p></li>
+<li><p><strong>scoring</strong> (<em>scoring method</em>) – a scoring function to determine which hyper parameters are best</p></li>
+<li><p><strong>cv</strong> (<em>int</em>) – the number of folds for the cross validation</p></li>
+<li><p><strong>jobs</strong> (<em>int</em>) – the number of cpus used to perform the search</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="config.html" class="btn btn-neutral float-right" title="config module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="phc-data-pipeline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Lucas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

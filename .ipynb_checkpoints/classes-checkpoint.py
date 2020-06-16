@@ -1,3 +1,10 @@
+"""The classes used to run the Pharmacogenomic ML pipeline.
+
+This module contains two classes, tuning is used to define a hyper parameter search space to optimize the performance of a method on a validation set. The drug class allows us to create, train and test a drug resistance prediction model for a specific drug. It includes each of the methods necessary for preprocessing, normalization, feature selection, domain adaptation, drug resistance prediction and retrieval of results.
+
+"""
+
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -14,21 +21,6 @@ import time
 
 
 
-"""The classes used to run the Pharmacogenomic ML pipeline.
-
-This module contains two classes, tuning is used to define a hyper parameter search space to optimize the performance of a method on a validation set. The drug class allows us to create, train and test a drug resistance prediction model for a specific drug. It includes each of the methods necessary for preprocessing, normalization, feature selection, domain adaptation, drug resistance prediction and retrieval of results.
-
-Example:
-  aag = drug('17-AAG', {'ctrp':ctrp_ge, 'gdsc':'gdsc_ge'}, {'ctrp':ctrp_dr, 'gdsc':'gdsc_dr'})
-  aag.pre()
-  aag.norm(MinMaxScaler)
-  aag.combine()
-  aag.split()
-  aag.fs(ElasticNet, n=0.2, )
-  aag.ajive(2)
-  aag.train(RandomForestRegressor)
-  aag.metrics([r2_score, mean_absolute_error, mean_squared_error, median_absolute_error])
-"""
 
 
 # The tuning class helps define a search space to optimize the hyper parameters of a method using sklearn's
@@ -46,7 +38,7 @@ class drug:
 
     The drug class allows us to create, train and test a drug resistance prediction model for a specific drug. It includes each of the methods necessary for preprocessing, normalization, feature selection, domain adaptation, drug resistance prediction and retrieval of results.
     
-    Attributes:
+    Parameters:
         name (str): the name of the drug for which the model is trained
         ge (dict): a dictionary containing the different domains as keys and the gene expression data
             from that domain as value
@@ -59,22 +51,51 @@ class drug:
         self.dr = pd.concat(dr, sort = False)
         self.data = pd.DataFrame()
         
-        ##Maybe I could have a dict of steps with key = method name value = True if run False else
+        ##These are used to store the 
         self.col = []
         self.da = {}
         self.predicted = []
     
     def norm(self, model):
+        """Applies normalization to data
+
+        Retrieves the gene expression data and normalizes it using the method given by `model`. Then it stores the normalized 
+            data on the gene expression dataframe. For this the method :func:`~methods.norm` is used.
+
+        Args:
+            model(`sklearn.base.TransformerMixin`): A normalization method on which fit_transform can be called
+            
+        """
         ge = self.ge.copy()
         
         self.ge = pd.DataFrame(norm(model, self.ge), index=ge.index, columns=ge.keys())
         
     def pre(self, p = 0.01, t=4):
+        """Applies pre-processing to data
+
+        Performs pre-processing on the gene expression data and stores it on the data pandas dataframe. 
+        To do this it uses the preprocessing method :func:`~methods.pre`
+
+        Args:
+            t (float): determines the threshold below which genes are considered to be unexpressed
+            p (float): is in the range ]0,1] and determines what is the minimum percentage of the CCLs that 
+                needs to be expressed. If the actual percentage is smaller then that specific gene will be dropped.
+        """
         self.data = pre(self.ge, p, t)
          
     
         
     def combine(self, metric='AUC_IC50'):
+        
+        """Combines drug resistance and gene expression data
+
+        This method puts gene expression and drug resistance data together into one dataframe and then stores 
+        this in the drug's data object. It does so by using the method :func:`~methods.combine`
+
+        Args:
+            metric (str): determines the drug resistance measure that will be used.
+        """
+        
         data = {}
         self.metric = metric
         if not self.data.empty:
@@ -92,6 +113,15 @@ class drug:
         self.data = pd.concat(data, sort = False).fillna(0)
     
     def split(self, test=None):
+        """Splits the data on train and test set
+
+        This method splits the data into train and test set so methods can be trained on the train set and evaluated on the 
+        test set. For this the sklearn :func:`~sklearn.model_selection.train_test_split` method is used.
+
+        Args:
+            metric (str): determines the drug resistance measure that will be used.
+        """
+        
         X_train, X_test, y_train, y_test = train_test_split(self.data.drop(self.metric, axis=1), self.data[self.metric], stratify = self.data.index.get_level_values(0), test_size = test)
         
         self.X = {'train': X_train.index, 'test': X_test.index}
