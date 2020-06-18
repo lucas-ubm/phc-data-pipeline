@@ -5,6 +5,6 @@ phc-data-pipeline
    :maxdepth: 4
 
    classes
-   config
    methods
    runs
+   train

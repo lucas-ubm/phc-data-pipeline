@@ -87,6 +87,7 @@
 <li class="toctree-l2"><a class="reference internal" href="config.html">config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methods.html">methods module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="runs.html">runs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="train.html">train module</a></li>
 </ul>
 </li>
 </ul>
@@ -215,7 +216,7 @@ It then stores the transformed data as a dataframe on the <cite>da</cite> variab
 <code class="sig-name descname">fs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">tuning</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.fs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Selects features using the given model</p>
 <p>This method selects the best features based on a given model. Then the optimal features are
-stored so they can be selected to be retrieved when using <code class="xref py py-func docutils literal notranslate"><span class="pre">get()</span></code>. The features
+stored so they can be selected to be retrieved when using <a class="reference internal" href="#classes.drug.get" title="classes.drug.get"><code class="xref py py-func docutils literal notranslate"><span class="pre">get()</span></code></a>. The features
 are selected using <a class="reference internal" href="methods.html#methods.fs" title="methods.fs"><code class="xref py py-func docutils literal notranslate"><span class="pre">fs()</span></code></a> and then we store the subset of columns selected on
 the <cite>col</cite> variable.</p>
 <dl class="field-list simple">
@@ -336,7 +337,7 @@ which is 0.25</p>
 <dt id="classes.drug.train">
 <code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">tuning</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.drug.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trains model on drug data.</p>
-<p>Trains the model specified on <cite>model</cite> on the train split of the data by using the method
+<p>Trains the model specified on <cite>model</cite> on the train split of the data by using the
 <a class="reference internal" href="methods.html#methods.drp" title="methods.drp"><code class="xref py py-func docutils literal notranslate"><span class="pre">drp()</span></code></a> method. It then stores the model on the drug’s <cite>model</cite> variable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

@@ -34,7 +34,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="runs module" href="runs.html" />
+    <link rel="prev" title="config module" href="config.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -78,11 +80,18 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">methods module</a></li>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">phc-data-pipeline</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="classes.html">classes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">config module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">methods module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runs.html">runs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="train.html">train module</a></li>
 </ul>
-</div>
+</li>
+</ul>
+
             
           
         </div>
@@ -126,6 +135,8 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
+          <li><a href="modules.html">phc-data-pipeline</a> &raquo;</li>
+        
       <li>methods module</li>
     
     
@@ -147,6 +158,9 @@
             
   <div class="section" id="module-methods">
 <span id="methods-module"></span><h1>methods module<a class="headerlink" href="#module-methods" title="Permalink to this headline">¶</a></h1>
+<p>The methods used to run the Pharmacogenomic ML pipeline.</p>
+<p>It includes each of the methods necessary for preprocessing, normalization,
+feature selection, domain adaptation and drug resistance prediction</p>
 <dl class="py function">
 <dt id="methods.ajive">
 <code class="sig-prename descclassname">methods.</code><code class="sig-name descname">ajive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">joint</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.ajive" title="Permalink to this definition">¶</a></dt>
@@ -160,30 +174,110 @@
 <dl class="py function">
 <dt id="methods.combine">
 <code class="sig-prename descclassname">methods.</code><code class="sig-name descname">combine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ge</span></em>, <em class="sig-param"><span class="n">dr</span></em>, <em class="sig-param"><span class="n">drug</span></em>, <em class="sig-param"><span class="n">metric</span><span class="o">=</span><span class="default_value">'AUC_IC50'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.combine" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Combines drug resistance and gene expression data</p>
+<p>This method puts gene expression and drug resistance data together into one dataframe,,
+drug resistance is incorporated using the defined metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> (<cite>pandas.DataFrame</cite>) – gene expression data</p></li>
+<li><p><strong>dr</strong> (<cite>pandas.DataFrame</cite>) – drug resistance data</p></li>
+<li><p><strong>drug</strong> (<em>str</em>) – drug name</p></li>
+<li><p><strong>metric</strong> (<em>str</em>) – determines the drug resistance measure that will be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pandas dataframe containing both gene expression and drug resistance measurements
+for the given drug.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="methods.drp">
 <code class="sig-prename descclassname">methods.</code><code class="sig-name descname">drp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">tuning</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.drp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Trains model on drug data.</p>
+<p>Trains the model specified on <cite>model</cite> on the given data by using the specified method.
+It then stores the model on the drug’s <cite>model</cite> variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>estimator object</em>) – model that will be trained on the data</p></li>
+<li><p><strong>X</strong> (<cite>pandas DataFrame</cite> or <cite>numpy array</cite>) – features of the samples
+on which the model is trained</p></li>
+<li><p><strong>y</strong> (<cite>pandas DataFrame</cite> or <cite>numpy array</cite>) – labels of the samples on which
+the model is trained</p></li>
+<li><p><strong>tuning</strong> (<cite>classes.tuning</cite>) – hyper parameter search space over which
+the model will be optimized. If not specified default values will
+be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The fitted model</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="methods.feda">
 <code class="sig-prename descclassname">methods.</code><code class="sig-name descname">feda</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">domains</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.feda" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Performs Frustratingly Easy Domain Adaptation, a type of Domain Adaptation.</p>
+<p>This method performs domain adaptation on the drug data by using Frustratingly Easy
+Domain Adaptation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>domains</strong> (<cite>pandas DataFrame</cite>) – data on which FEDA will be performed, it should
+contain the domain on the 0 level of the keys</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A DataFrame with the transformed data</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="methods.fs">
-<code class="sig-prename descclassname">methods.</code><code class="sig-name descname">fs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">X_train</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">X_test</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">y</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">tuning</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.fs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a subset of {X_train} and {X_test} with features being selected by the method {model}
-:param int n: it can be the variance thereshold or the number of chosen features
-:</p>
+<code class="sig-prename descclassname">methods.</code><code class="sig-name descname">fs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">X_train</span></em>, <em class="sig-param"><span class="n">X_test</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">tuning</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.fs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects features using the given model</p>
+<p>This method selects the best features based on a given model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>estimator object</em>) – this is the method that will
+be used to determine the best features.</p></li>
+<li><p><strong>X_train</strong> (<cite>pandas DataFrame</cite> or <cite>numpy array</cite>) – train data on which
+the best features will be selected.</p></li>
+<li><p><strong>X_test</strong> (<cite>pandas DataFrame</cite> or <cite>numpy array</cite>) – test data, this will only be
+transformed by selecting the specified features.</p></li>
+<li><p><strong>y</strong> (<cite>pandas DataFrame</cite> or <cite>numpy array</cite>) – labels of the train set</p></li>
+<li><p><strong>n</strong> (<em>float</em>) – determines what percentage of the features will be selected</p></li>
+<li><p><strong>tuning</strong> (<cite>classes.tuning</cite>) – defines a hyper parameter search space over which the feature selection
+method can be optimized.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Two DataFrames, each containing the train and test set with only the selected features
+and a dictionary containing the selected features and their respective weights.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="methods.group_ajive">
 <code class="sig-prename descclassname">methods.</code><code class="sig-name descname">group_ajive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">joint</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.group_ajive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Performs Angle-based Joint and Individual Variation (AJIVE), a type of Domain Adaptation</p>
+<p>This method performs domain adaptation by learning the joint space projections from the train
+set and then projecting the test set onto the joint space. For this, the methods <cite>ajive</cite> and
+<cite>ajive_predict</cite> are used respectively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<cite>pandas DataFrame</cite>) – the data for which domain adaptation is being performed</p></li>
+<li><p><strong>joint</strong> (<em>int</em>) – determines the rank of the joint space of the domains</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="methods.jump">
@@ -193,17 +287,43 @@
 <dl class="py function">
 <dt id="methods.norm">
 <code class="sig-prename descclassname">methods.</code><code class="sig-name descname">norm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">ge</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.norm" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Applies normalization to data</p>
+<p>Normalizes the given data using the given model then returns the normalized data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<cite>sklearn.base.TransformerMixin</cite>) – a normalization method on which fit_transform can be called</p></li>
+<li><p><strong>ge</strong> (<cite>pandas Dataframe</cite> or <cite>numpy array</cite>) – the data that should be normalized</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pandas DataFrame or numpy aarray containing the transformed data.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="methods.pre">
-<code class="sig-prename descclassname">methods.</code><code class="sig-name descname">pre</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">t</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#methods.pre" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="methods.run">
-<code class="sig-prename descclassname">methods.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drug</span></em>, <em class="sig-param"><span class="n">pre</span></em>, <em class="sig-param"><span class="n">norm</span></em>, <em class="sig-param"><span class="n">fs</span></em>, <em class="sig-param"><span class="n">da</span></em>, <em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">test</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">methods.</code><code class="sig-name descname">pre</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">t</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span><a class="headerlink" href="#methods.pre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies pre-processing to data</p>
+<p>Performs pre-processing on the gene expression data and returns a dataframe containing the
+selected genes. This pre-processing is used to find unexpressed genes that a
+microarray could detect as background noise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<cite>pandas.DataFrame</cite>) – contains the data for which pre-processing will be made, rows should be
+cancer cell lines and columns should be genes.</p></li>
+<li><p><strong>t</strong> (<em>float</em>) – determines the threshold below which genes are considered to be unexpressed.</p></li>
+<li><p><strong>p</strong> (<em>float</em>) – is in the range ]0,1] and determines what is the minimum percentage of the CCLs that
+needs to be expressed. If the actual percentage is smaller then that specific gene will be dropped.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Pandas dataframe with only the selected genes included.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="methods.svals">
@@ -217,6 +337,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="runs.html" class="btn btn-neutral float-right" title="runs module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="config.html" class="btn btn-neutral float-left" title="config module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

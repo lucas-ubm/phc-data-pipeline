@@ -165,7 +165,7 @@ class drug:
         """Selects features using the given model
 
         This method selects the best features based on a given model. Then the optimal features are
-        stored so they can be selected to be retrieved when using :func:`~classes.get`. The features
+        stored so they can be selected to be retrieved when using :func:`~classes.drug.get`. The features
         are selected using :func:`~methods.fs` and then we store the subset of columns selected on
         the `col` variable.
 
@@ -226,7 +226,7 @@ class drug:
     def train(self, model, tuning=None):
         """Trains model on drug data.
 
-        Trains the model specified on `model` on the train split of the data by using the method
+        Trains the model specified on `model` on the train split of the data by using the
         :func:`~methods.drp` method. It then stores the model on the drug's `model` variable.
 
         Args:
