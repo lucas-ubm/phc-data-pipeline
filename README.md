@@ -8,7 +8,7 @@ First we design a pipeline as shown under
 
 ![](graphs/Pipeline.pdf)
 
-This pipeline is documented using docstrings. One can find the documentation as a webpage under [docs/build/html/index.html](docs/build/html/index.html)
+This pipeline is documented using docstrings. One can find the documentation as a webpage under [docs/_build/html/index.html](docs/_build/html/index.html)
 
 The pipeline is developed in the files:
 
