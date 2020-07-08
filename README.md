@@ -6,7 +6,7 @@ The use case explored in this repository is that of large pharmacogenomic studie
 
 First we design a pipeline as shown under
 
-![](graphs/Pipeline.pdf)
+![](graphs/Pipeline.png)
 
 This pipeline is documented using docstrings. One can find the documentation as a webpage under [docs/_build/html/index.html](docs/_build/html/index.html)
 
