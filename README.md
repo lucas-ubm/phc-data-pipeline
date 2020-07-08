@@ -17,5 +17,31 @@ The pipeline is developed in the files:
   * `tuning`: is used to define a randomized hyper parameter search for a given drug resistance prediction method.
   * `Drug`: is the central class of the pipeline. It uses the methods defined under `methods.py` and stores the results and data used for modeling a specific drug
 
-* `runs.py`: 
+* `runs.py`: here we instantiate and run a `Drug` through each of the steps of the pipeline 
 
+* `train.py`: serves as an entry point to the pipeline. Allows to configure a run and store the results. It also defines hyperparameter search spaces for the different drug resistance prediction methods.
+
+* `config.py`: should be created and contain:
+
+  ```python
+  dir = '<PATH-TO-PROCESSED-DATA>/data/Processed/'
+  guild = '<PATH-TO-GUILD>/venv/.guild/'
+  ```
+
+Examples of the use of the pipeline can be found under the jupyter notebooks:
+
+* `methods-example` shows an example of the use of the `methods.py` methods. It trains a model on pharmacogenomic data and displays the results. It can be useful to understand the input given to each of the methods and the output received. By adding `%%time` at the beginning of a cell it could also be used to analyze the time performance of each of the methods. 
+* `drug-example`shows an example of the use of the `classes.py` Drug class. Similar to `methods-example` it runs through each of the steps of the pipeline. It can also be used to test performance improvements or the succesful implementation of new methods for the Drug class.
+* `run-example` provides an example of the use of the `run` method. 
+
+Two notebooks explore the given pharmacogenomic data:
+
+* `data-cleaning` cleans the name of the CCLs from GDSC, CCLE and CTRP ensuring that the same name format is used for CCLs. Here we also put together CCLs found on Pozdeyev's drug resistance CTRP, GDSC and CCLE data with the ones found on [CellMinderCDB's](https://discover.nci.nih.gov/cellminercdb/) gene expression data.
+* `data-exploration` allows us to explore missing CCLs and understanding the intersection between the given datasets.
+
+The last three notebooks are used for analyzing our results:
+
+* `results-append` shows how to add the results of the individual models to the run results data as given by Guild. 
+* `analysis-ic-quality` is an analysis of the impact of EC/IC quality on the $r^2$ scores of the models. A threshold is set under which models are disregarded due to the low quality of the data.
+* `results-anova` provides an ANOVA analysis of the results based on the different elements of the configuration. Here we also find a statistical analysis of the importance of the different factors.
+* `results-hyperparameters` provides an initial exploratory analysis of the impact of the hyperparameters of the three best performing models (Random Forests, K Nearest Neighbours and Elastic Net) on the results.

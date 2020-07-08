@@ -96,6 +96,6 @@ if True in data.values():
     scores.to_csv('scores.csv')
 
 
-    scores.boxplot(figsize=(12,9))
-    plt.tight_layout()
-    plt.savefig('boxplot.png')
+    #scores.boxplot(figsize=(12,9))
+    #plt.tight_layout()
+    #plt.savefig('boxplot.png')
