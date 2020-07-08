@@ -5,3 +5,5 @@ log/
 venv/
 __pycache__/
 config.py
+.ipynb_checkpoints/
+guild-start/
