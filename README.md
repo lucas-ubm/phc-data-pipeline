@@ -1,5 +1,7 @@
 # Drug resistance learning pipeline
 
+To find the documentation see https://phc-data-pipeline.readthedocs.io/en/latest/index.html
+
 This project aims to develop a pipeline to systematically assess the performance of different ML methods on high dimensional datasets extracted from different domains.
 
 The use case explored in this repository is that of large pharmacogenomic studies, specifically, [GDSC](https://www.cancerrxgene.org/), [CTRP](https://portals.broadinstitute.org/ctrp.v2.1/) and [CCLE](https://portals.broadinstitute.org/ccle).  
