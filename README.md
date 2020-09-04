@@ -10,8 +10,6 @@ First we design a pipeline as shown under
 
 ![](graphs/Pipeline.png)
 
-This pipeline is documented using docstrings. One can find the documentation as a webpage under [docs/_build/html/index.html](docs/_build/html/index.html)
-
 The pipeline is developed in the files:
 
 * `methods.py`: where we implement the normalization, preprocessing, feature selection, domain adaptation and drug resistance prediction methods. These methods work with [sklearn](https://scikit-learn.org/stable/) methods and could be reused for training any type of tabular data.
